@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../../dist/tours/pages/tourForm/tourForm.css">
+    <title>Ture forma</title>
+</head>
+<body>
+    <div>
+        <form>
+            <!--Promeniti polja-->
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name">
+            <span id="nameError"></span>
+            <br>
+            <label for="description">Description:</label>
+            <input type="text" name="description" id="description">
+            <span id="descriptionError"></span>
+            <br>
+            <label for="dateTime">Starting at:</label>
+            <input type="datetime-local" name="dateTime" id="dateTime">
+            <span id="dateTimeError"></span>
+            <br>
+            <label for="maxGuests">Max guests:</label>
+            <input type="number" name="maxGuests" id="maxGuests">
+            <span id="maxGuestsError"></span>
+            <br>
+            <label for="status">Status:</label>
+            <input type="text" name="status" id="status">
+            <span id="statusError"></span>
+            <br>
+            <button type="button" id="submitBtn" >Posalji</button>        
+        </form>
+    </div>
+
+    <script type="module" src="../../../../dist/tours/pages/tourForm/tourForm.js"></script>
+</body>
+</html>
