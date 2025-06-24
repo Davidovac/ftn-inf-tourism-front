@@ -38,30 +38,33 @@ button {
 }
 
 .navbar {
-    background-color: $primary-color;
-    padding: 10px;
+  background-color: $primary-color;
+  padding: 20px 30px;
 
-    .nav-list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
+  .nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-item {
+    margin-right: 20px;
+
+    a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $accent-color;
+      }
     }
+  }
 
-    .nav-item {
-        margin-right: 15px;
-
-        a {
-            color: white;
-        }
-    }
-
-    #login {
-        margin-left: auto;
-    }
-
-    #logout {
-        margin-left: auto;
-    }
-    
+  #login, #logout {
+    margin-left: auto;
+  }
 }

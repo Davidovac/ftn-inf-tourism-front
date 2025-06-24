@@ -27,7 +27,9 @@ function handleLogin(event: Event) {
         .then((user) => {
             localStorage.setItem('username', user.username);
             localStorage.setItem('role', user.role);
+            localStorage.setItem('userId', user.id.toString())
             setUserLoginState(true);
+            window.location.href = "../../../../app/index.html"
         })
         .catch((error) => {
             console.error('Login failed', error.message);
@@ -37,6 +39,7 @@ function handleLogin(event: Event) {
 function handleLogout() {
     localStorage.removeItem('username');
     localStorage.removeItem('role');
+    localStorage.removeItem('userId');
     setUserLoginState(false);
 }
 

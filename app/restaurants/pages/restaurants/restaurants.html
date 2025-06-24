@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restorani</title>
+    <link rel="stylesheet" href="../../../../dist/restaurants/pages/restaurants/restaurants.css">
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="../../../index.html">Home</a></li>
+            <li class="nav-item"><a href="restaurants.html">Restaurants</a></li>
+            <li class="nav-item" id="login"><a href="../../../users/pages/login/login.html">Login</a></li>
+            <li class="nav-item" id="logout"><a href="../../../index.html">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div id="restaurantList"></div>
+
+    <div class="add-restaurant-container">
+        <button id="addRestaurantBtn" class="add-button">Dodaj restoran</button>
+    </div>
+
+    <script type="module" src="../../../../dist/authentication/auth.js"></script>
+    <script type="module" src="../../../../dist/restaurants/pages/restaurants/restaurants.js"></script>
+</body>
+</html>
