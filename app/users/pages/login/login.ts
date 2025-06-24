@@ -17,7 +17,7 @@ function setUserLoginState(isLoggedIn: boolean) {
 
 function handleLogin(event: Event) {
     event.preventDefault();
-    
+
     const form = document.querySelector("form") as HTMLFormElement;
     const formData = new FormData(form);
     const username = formData.get("username") as string;
@@ -28,6 +28,20 @@ function handleLogin(event: Event) {
             localStorage.setItem('username', user.username);
             localStorage.setItem('role', user.role);
             localStorage.setItem('userId', user.id.toString())
+            if (user.role === "vlasnik") {
+              localStorage.setItem("userId", user.id.toString());
+            } else {
+              if (localStorage.getItem("userId")) {
+                localStorage.removeItem("userId");
+              }
+            }
+            if (user.role === "vodic") {
+              localStorage.setItem("guideId", user.id.toString());
+            } else {
+              if (localStorage.getItem("guideId")) {
+                localStorage.removeItem("guideId");
+              }
+            }
             setUserLoginState(true);
             window.location.href = "../../../../app/index.html"
         })
@@ -39,7 +53,12 @@ function handleLogin(event: Event) {
 function handleLogout() {
     localStorage.removeItem('username');
     localStorage.removeItem('role');
+    if (localStorage.getItem('userId')){
     localStorage.removeItem('userId');
+    }
+    if (localStorage.getItem('guideId')){
+        localStorage.removeItem('guideId')
+    }
     setUserLoginState(false);
 }
 

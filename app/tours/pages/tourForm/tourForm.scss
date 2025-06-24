@@ -1,0 +1,21 @@
+@use '../../../styles/global.scss' as *;
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 28vh;
+    padding: 3vh;
+    margin-left: 3vw;
+    border: 2px solid $primary-color;
+    border-radius: 10px;
+    background-color: rgb(220, 241, 255);
+    input {
+            height: 1vh;
+            border-radius: 3px;
+            border: 1px solid;
+        }
+    label {
+        font-weight: bold;
+    }
+    
+}
