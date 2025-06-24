@@ -12,12 +12,18 @@ export function setUserLoginState(isLoggedIn: boolean) {
     }
 }
 
-export function handleLogout() {
+function handleLogout() {
     localStorage.removeItem('username');
     localStorage.removeItem('role');
+    if (localStorage.getItem('userId')){
     localStorage.removeItem('userId');
+    }
+    if (localStorage.getItem('guideId')){
+        localStorage.removeItem('guideId')
+    }
     setUserLoginState(false);
     window.location.href = '../users/pages/login/login.html';
+
 }
 
 export function checkLoginStatus() {
