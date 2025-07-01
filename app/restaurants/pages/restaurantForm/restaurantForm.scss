@@ -60,4 +60,165 @@ form {
       cursor: not-allowed;
     }
   }
+
+  #cancelMealBtn {
+    background-color: $warn-color;
+
+    &:hover {
+      background-color: darken($warn-color, 10%);
+    }
+  }
+}
+
+.hidden {
+    display: none;
+}
+
+#meals-section {
+  max-width: 800px;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+#meals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.meal-card {
+  background-color: #fff;
+  border: 1px solid $main-border-color;
+  border-radius: 8px;
+  padding: 15px;
+  width: 220px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: $primary-color;
+  }
+
+  img {
+    width: 180px;
+    height: 120px;
+    border-radius: 6px;
+    object-fit: cover;
+    display: block;
+  }
+
+  button.delete-meal {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background-color: $warn-color;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: darken($warn-color, 10%);
+    }
+  }
+}
+
+#addMealBtn {
+  padding: 10px 25px;
+  margin: 10px;
+  background-color: $button-color;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($button-color, 10%);
+  }
+}
+
+#main-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: 30px;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#meals-side {
+  flex-grow: 1;
+  max-width: 600px;
+
+  h3 {
+    color: $primary-color;
+    margin-bottom: 20px;
+    font-size: 22px;
+  }
+
+  #meals {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+    justify-content: start;
+  }
+}
+
+#publishBtn{
+  width: 100%;
+}
+
+#tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 220px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1000;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+#tooltip:hover button:disabled + .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }
