@@ -31,10 +31,10 @@
             <input type="text" id="imageUrl" placeholder="https://example.com/slika.jpg" required />
             
             <label for="latitude">Latituda:</label>
-            <input type="number" id="latitude" placeholder="44.8125" step="0.000001" required />
+            <input type="number" id="latitude" min="-90" max="90" placeholder="44.8125" step="0.000001" required />
             
             <label for="longitude">Longituda:</label>
-            <input type="number" id="longitude" placeholder="20.4612" step="0.000001" required />
+            <input type="number" id="longitude" min="-180" max="180" placeholder="20.4612" step="0.000001" required />
             
             <button type="submit" id="submitBtn">Sačuvaj</button>
             <div id="tooltip">

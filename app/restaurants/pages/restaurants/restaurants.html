@@ -16,10 +16,42 @@
         </ul>
     </nav>
 
-    <div id="restaurantList"></div>
+    <div class="sort-buttons">
+        <div>
+            <span>Sortiraj po:</span>
+            <select id="sortBy-select">
+                <option value="Name">Imenu</option>
+                <option value="Capacity">Kapacitetu</option>
+            </select>
+        </div>
+
+        <div>
+            <span>Redosled:</span>
+            <select id="sortIn-select">
+                <option value="ASC">Rastuce</option>
+                <option value="DESC">Opadajuce</option>
+            </select>
+        </div>
+        
+        <div>
+            <span id="page-size-span">Prikaži:</span>
+            <button id="button-one" class="page-size-btn" data-size="5">5</button>
+            <button id="button-two" class="page-size-btn" data-size="10">10</button>
+            <button id="button-three" class="page-size-btn active" data-size="20">20</button>
+            <span>restorana</span>
+        </div>
+    </div>
 
     <div class="add-restaurant-container">
         <button id="addRestaurantBtn" class="add-button">Dodaj restoran</button>
+    </div>
+
+    <div id="restaurantList"></div>
+
+    <div class="pagination-buttons">
+        <button class="page-size-btn" id="prevPageBtn">Prethodna</button>
+        <span id="currentPage">{{currentPage}}</span>
+        <button class="page-size-btn" id="nextPageBtn">Sledeća</button>
     </div>
 
     <script type="module" src="../../../../dist/authentication/auth.js"></script>

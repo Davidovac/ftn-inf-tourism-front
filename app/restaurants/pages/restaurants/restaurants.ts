@@ -1,5 +1,13 @@
 import { RestaurantService } from "../../../../dist/restaurants/services/restaurant.service.js";
-const addRestaurantBtn = document.querySelector('#addRestaurantBtn') as HTMLElement;
+const addRestaurantBtn = document.querySelector('#addRestaurantBtn') as HTMLButtonElement;
+const buttonOne = document.querySelector('#button-one') as HTMLButtonElement;
+const buttonTwo = document.querySelector('#button-two') as HTMLButtonElement;
+const buttonThree = document.querySelector('#button-three') as HTMLButtonElement;
+const prevPageBtn = document.getElementById("prevPageBtn") as HTMLButtonElement;
+const nextPageBtn = document.getElementById("nextPageBtn") as HTMLButtonElement;
+const currentPageSpan = document.getElementById("currentPage") as HTMLSpanElement;
+const sortBySelect = document.getElementById("sortBy-select") as HTMLSelectElement;
+const sortInSelect = document.getElementById("sortIn-select") as HTMLSelectElement;
 
 
 const restaurantService = new RestaurantService();
@@ -7,12 +15,98 @@ const list = document.getElementById("restaurantList")!;
 const ownerIdString = localStorage.getItem("userId");
 const ownerId = ownerIdString ? parseInt(ownerIdString) : null;
 
+let pageCount = 20;
+let currentPage = 1;
+let sortBy: "Name" | "Capacity" = "Name";
+let sortIn: "ASC" | "DESC" = "ASC";
+
+
 addRestaurantBtn.addEventListener('click', () => {
     window.location.href = '../restaurantForm/restaurantForm.html';
 });
 
+buttonOne.addEventListener('click', () => {
+    buttonOne.classList.add('active')
+    buttonTwo.classList.remove('active')
+    buttonThree.classList.remove('active')
+    pageCount = 5;
+    currentPage = 1;
+    loadRestaurants()
+})
+buttonTwo.addEventListener('click', () => {
+    buttonOne.classList.remove('active')
+    buttonTwo.classList.add('active')
+    buttonThree.classList.remove('active')
+    pageCount = 10;
+    currentPage = 1;
+    loadRestaurants()
+})
+
+buttonThree.addEventListener('click', () => {
+    buttonOne.classList.remove('active')
+    buttonTwo.classList.remove('active')
+    buttonThree.classList.add('active')
+    pageCount = 20;
+    currentPage = 1;
+    loadRestaurants()
+})
+
+prevPageBtn.addEventListener("click", () => {
+    if (currentPage > 1) {
+        currentPage--;
+        loadRestaurants();
+    }
+});
+
+nextPageBtn.addEventListener("click", () => {
+    currentPage++;
+    loadRestaurants();
+});
+
+sortBySelect.addEventListener("change", () => {
+    const value = sortBySelect.value;
+    if (value === "Name" || value === "Capacity") {
+        sortBy = value;
+        currentPage = 1;
+        loadRestaurants();
+    }
+});
+
+sortInSelect.addEventListener("change", () => {
+    const value = sortInSelect.value;
+    if (value === "ASC" || value === "DESC") {
+        sortIn = value;
+        currentPage = 1;
+        loadRestaurants();
+    }
+});
+
 async function loadRestaurants() {
-    const restaurants = await restaurantService.getByOwner(ownerId);
+    list.innerHTML = "";
+    let restaurants ;
+    let restaurantCount;
+    currentPageSpan.textContent = currentPage.toString();
+    if(ownerId){
+        restaurants = await restaurantService.getPaged(ownerId, currentPage, pageCount, sortBy, sortIn);
+    }
+    else{
+        addRestaurantBtn.classList.add("hidden");
+        const data = await restaurantService.getPaged(0, currentPage, pageCount, sortBy, sortIn);
+        restaurants = data.data
+        restaurantCount = data.totalCount;
+        console.log("restaurants", restaurants)
+        console.log("count", restaurantCount)
+    }
+
+    if (restaurantCount) {
+    const maxPage = Math.ceil(restaurantCount / pageCount);
+    nextPageBtn.disabled = currentPage >= maxPage;
+    nextPageBtn.classList.add('disabled')
+    currentPageSpan.textContent = (currentPage + '/' + maxPage).toString()
+    } else {
+        nextPageBtn.disabled = false;
+    }
+    prevPageBtn.disabled = currentPage <= 1;
 
     if(restaurants.length <= 0) {
         const emptyMessage = document.createElement('p');
@@ -50,6 +144,10 @@ async function loadRestaurants() {
             capacityInfo.textContent = `Kapacitet: ${r.capacity}`;
             capacityInfo.classList.add("capacity-info");
 
+            const statusInfo = document.createElement("p");
+            statusInfo.textContent = `Status: ${r.status}`
+            capacityInfo.classList.add("capacity-info");
+
             const buttonGroup = document.createElement("div");
             buttonGroup.classList.add("button-group");
 
@@ -68,10 +166,12 @@ async function loadRestaurants() {
                 location.reload();
             });
 
-            buttonGroup.appendChild(editBtn);
-            buttonGroup.appendChild(deleteBtn);
-
             contentDiv.appendChild(h3);
+            if(ownerId){
+                contentDiv.appendChild(statusInfo);
+                buttonGroup.appendChild(editBtn);
+                buttonGroup.appendChild(deleteBtn);
+            }
             contentDiv.appendChild(p);
             contentDiv.appendChild(locationInfo);
             contentDiv.appendChild(capacityInfo);
