@@ -7,33 +7,63 @@
     <title>Ture forma</title>
 </head>
 <body>
-    <div>
-        <form>
-            <!--Promeniti polja-->
-            <label for="name">Name:</label>
-            <input type="text" name="name" id="name">
-            <span id="nameError"></span>
-            <br>
-            <label for="description">Description:</label>
-            <input type="text" name="description" id="description">
-            <span id="descriptionError"></span>
-            <br>
-            <label for="dateTime">Starting at:</label>
-            <input type="datetime-local" name="dateTime" id="dateTime">
-            <span id="dateTimeError"></span>
-            <br>
-            <label for="maxGuests">Max guests:</label>
-            <input type="number" name="maxGuests" id="maxGuests">
-            <span id="maxGuestsError"></span>
-            <br>
-            <label for="status">Status:</label>
-            <input type="text" name="status" id="status">
-            <span id="statusError"></span>
-            <br>
-            <button type="button" id="submitBtn" >Posalji</button>        
-        </form>
+    <h2>Pravljenje/izmena ture i dodavanje kljucnih tacaka</h2>
+    <div id="container">
+        <div id="form-block">
+            <form>
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name">
+                <span id="nameError"></span>
+                <br>
+                <label for="description">Description:</label>
+                <input type="text" name="description" id="description">
+                <span id="descriptionError"></span>
+                <br>
+                <label for="dateTime">Starting at:</label>
+                <input type="datetime-local" name="dateTime" id="dateTime">
+                <span id="dateTimeError"></span>
+                <br>
+                <label for="maxGuests">Max guests:</label>
+                <input type="number" name="maxGuests" id="maxGuests">
+                <span id="maxGuestsError"></span>
+                <br>
+                <button type="button" id="submitBtn" disabled>Sacuvaj</button>        
+            </form>
+        </div>
+        <div id="key-points-block">
+            <div id="key-points-catalog">
+                <h3>Izaberi:</h3>
+                <div class="row">
+                    <div class="key-point-card"></div>
+                    <div class="second-row-section"><div class="plus"></div></div>
+                </div>
+                <div class="row">
+                    <div class="key-point-card"></div>
+                    <div class="second-row-section"><div class="plus"></div></div>
+                </div>
+                <div class="row">
+                    <div class="key-point-card"></div>
+                    <div class="second-row-section"><div class="plus"></div></div>
+                </div>
+                <div class="row">
+                    <div class="key-point-card"></div>
+                    <div class="second-row-section"><div class="plus"></div></div>
+                </div>
+                <div id="paging-buttons">
+                    <div id="buttonFirstPage" class="circle"></div>
+                    <div id="buttonPreviousPage" class="circle"></div>
+                    <div id="buttonCurrentPage" class="square"></div>
+                    <div id="buttonNextPage" class="circle"></div>
+                    <div id="buttonLastPage" class="circle"></div>
+                </div>
+            </div>
+            <div id="key-points-added">
+                <h3>Dodate kljucne tacke:</h3>
+            </div>
+        </div>
     </div>
-
+    
+    <div id="loadingSpinner" class="spinner"></div>
     <script type="module" src="../../../../dist/authentication/auth.js"></script>
     <script type="module" src="../../../../dist/tours/pages/tourForm/tourForm.js"></script>
 </body>

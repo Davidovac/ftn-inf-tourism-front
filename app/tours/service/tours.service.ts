@@ -67,7 +67,7 @@ export class ToursService {
       });
   }
 
-  addOrUpdate(reqBody: TourFormData): void {
+  addOrUpdate(reqBody: TourFormData): Promise<Tour> | null {
     let method = "POST";
     let url = this.apiUrl;
 
@@ -78,8 +78,14 @@ export class ToursService {
       method = "PUT";
       url = this.apiUrl + "/" + id;
     }
-
-    fetch(url, {
+    else if (reqBody.id && reqBody.id > 0){
+      method = "PUT"
+      url = this.apiUrl + "/" + reqBody.id
+    }
+    if (!reqBody.keyPoints || reqBody.keyPoints == null){
+      reqBody.keyPoints = []
+    }
+    return fetch(url, {
       method: method,
       headers: {
         "Content-Type": "application/json",
@@ -92,8 +98,8 @@ export class ToursService {
         }
         return response.json();
       })
-      .then(() => {
-        window.location.href = "../preview/tours.html";
+      .then((data) => {
+        return data
       })
       .catch((error) => {
         console.error("Error: " + error.status);
