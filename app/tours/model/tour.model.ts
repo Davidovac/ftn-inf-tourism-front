@@ -2,7 +2,7 @@ import { User } from "../../users/model/user.model.js"
 import { KeyPoint } from "./keyPoint.model.js"
 
 export class Tour {
-    public id: number
+    public id?: number
     public name: string
     public description: string
     public dateTime: string
