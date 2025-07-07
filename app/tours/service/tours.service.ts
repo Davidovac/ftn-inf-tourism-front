@@ -1,5 +1,6 @@
 import { Tour } from "../model/tour.model.js"
 import { TourFormData } from "../model/tourFormData.model.js";
+import { ToursData } from "../model/toursData.model.js";
 
 export class ToursService {
   private apiUrl: string;
@@ -8,7 +9,45 @@ export class ToursService {
     this.apiUrl = "http://localhost:5105/api/tours";
   }
 
-  getTours(guideIdStr: string): Promise<Tour[] | null> {
+  getTours(page: string, pageSize: string, orderBy: string, orderDirection: string): Promise<ToursData | null> {
+    if (isNaN(Number(page))){
+      page = "1"
+    }
+    return fetch(this.apiUrl + "?page=" + page + "&pageSize=" + pageSize + "&orderBy=" + orderBy + "&orderDirection=" + orderDirection)
+      .then((response) => {
+        if (!response.ok) {
+          throw { status: response.status, text: response.text };
+        }
+        return response.json();
+      })
+      .then((responseData) => {
+        const tours: Tour[] = [];
+        for (const element of responseData.data) {
+          const tour: Tour = new Tour(
+            element.id,
+            element.name,
+            element.description,
+            element.dateTime,
+            element.maxGuests,
+            element.status,
+            element.guide,
+            element.guideId,
+            element.keyPoints
+          );
+          tours.push(tour);
+        }
+        const data = tours
+        const totalCount = responseData.totalCount
+        const toursData: ToursData = {data, totalCount}
+        return toursData;
+      })
+      .catch((error) => {
+        console.error("Error:", error.status);
+        throw error;
+      });
+  }
+
+  getToursByGuide(guideIdStr: string): Promise<ToursData | null> {
     const id = Number(guideIdStr);
     if (Number.isNaN(id)) {
       console.log("Invalid number format.");
@@ -21,11 +60,10 @@ export class ToursService {
         }
         return response.json();
       })
-      .then((data) => {
-        const users: Tour[] = [];
-        for (const element of data.data) {
-          //Pri zahtevu pregleda tura od strane drugih korisnika(potrosaca), implementirati getGuide metodu i dodati vodica ako je null
-          const user: Tour = new Tour(
+      .then((responseData) => {
+        const tours: Tour[] = [];
+        for (const element of responseData.data) {
+          const tour: Tour = new Tour(
             element.id,
             element.name,
             element.description,
@@ -36,9 +74,12 @@ export class ToursService {
             element.guideId,
             element.keyPoints
           );
-          users.push(user);
+          tours.push(tour);
         }
-        return users;
+        const data = tours
+        const totalCount = responseData.totalCount
+        const toursData: ToursData = {data, totalCount}
+        return toursData;
       })
       .catch((error) => {
         console.error("Error:", error.status);
