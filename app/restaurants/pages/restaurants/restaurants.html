@@ -54,6 +54,26 @@
         <button class="page-size-btn" id="nextPageBtn">Sledeća</button>
     </div>
 
+    <div id="restaurantModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalName"></h2>
+                <span id="closeModal" class="close-button">&times;</span>
+            </div>
+            <p id="modalDescription"></p>
+            <div class="modal-sections">
+                <div class="content-first-section">
+                    <div class="gallery">Galerija:</div>
+                    <div id="modalImages" class="modal-images"></div>
+                </div>
+                <div class="content-second-section">
+                    <div class="menu">Jelovnik:</div>
+                    <div id="modalMenu" class="modal-menu"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="../../../../dist/authentication/auth.js"></script>
     <script type="module" src="../../../../dist/restaurants/pages/restaurants/restaurants.js"></script>
 </body>

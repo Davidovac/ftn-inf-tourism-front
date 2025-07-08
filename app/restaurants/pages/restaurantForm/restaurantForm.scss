@@ -222,3 +222,24 @@ form {
   visibility: visible;
   opacity: 1;
 }
+
+.image-url-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.remove-image-btn {
+  background-color: $warn-color;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darken($warn-color, 20%);
+  }
+}
+

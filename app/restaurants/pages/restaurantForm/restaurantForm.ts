@@ -1,4 +1,3 @@
-import { Restaurant } from "../../models/restaurant.model";
 import { RestaurantService } from "../../../../dist/restaurants/services/restaurant.service.js";
 import { Meal } from "../../../../dist/restaurants/models/meal.model.js";
 
@@ -7,6 +6,9 @@ const mealForm = document.getElementById("mealForm") as HTMLFormElement;
 const addMealBtn = document.getElementById("addMealBtn") as HTMLButtonElement;
 const cancelMealBtn = document.getElementById("cancelMealBtn") as HTMLButtonElement;
 const publishBtn = document.getElementById("publishBtn") as HTMLButtonElement;
+
+const imageInputsContainer = document.getElementById("imageInputs") as HTMLDivElement;
+const addImageBtn = document.getElementById("addImageBtn") as HTMLButtonElement;
 
 const restaurantService = new RestaurantService();
 const urlParams = new URLSearchParams(window.location.search);
@@ -26,7 +28,30 @@ function loadData() {
       (document.getElementById("name") as HTMLInputElement).value = restaurant.name;
       (document.getElementById("description") as HTMLInputElement).value = restaurant.description;
       (document.getElementById("capacity") as HTMLInputElement).value = restaurant.capacity.toString();
-      (document.getElementById("imageUrl") as HTMLInputElement).value = restaurant.imageUrl;
+      imageInputsContainer.innerHTML = "";
+      restaurant.imageUrls.forEach((url) => {
+        const wrapperDiv = document.createElement("div");
+        wrapperDiv.classList.add("image-url-group");
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.name = "imageUrl";
+        input.placeholder = "https://example.com/slika.jpg";
+        input.classList.add("image-input");
+        input.value = url;
+
+        const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.textContent = "Obriši";
+        removeBtn.classList.add("remove-image-btn");
+        removeBtn.addEventListener("click", () => {
+          wrapperDiv.remove();
+        });
+
+        wrapperDiv.appendChild(input);
+        wrapperDiv.appendChild(removeBtn);
+        imageInputsContainer.appendChild(wrapperDiv);
+      });
       (document.getElementById("latitude") as HTMLInputElement).value = restaurant.latitude.toString();
       (document.getElementById("longitude") as HTMLInputElement).value = restaurant.longitude.toString();
 
@@ -47,7 +72,10 @@ publishBtn.addEventListener("click", async () => {
     name: (document.getElementById("name") as HTMLInputElement).value,
     description: (document.getElementById("description") as HTMLInputElement).value,
     capacity: parseInt((document.getElementById("capacity") as HTMLInputElement).value),
-    imageUrl: (document.getElementById("imageUrl") as HTMLInputElement).value,
+    imageUrls: Array.from(document.querySelectorAll(".image-input"))
+    .map(input => (input as HTMLInputElement).value)
+    .filter(url => url.trim() !== ""),
+
     latitude: parseFloat((document.getElementById("latitude") as HTMLInputElement).value),
     longitude: parseFloat((document.getElementById("longitude") as HTMLInputElement).value),
     ownerId: ownerId,
@@ -66,12 +94,15 @@ publishBtn.addEventListener("click", async () => {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const restaurant: Restaurant = {
+  const restaurant = {
     id: id || 0,
     name: (document.getElementById("name") as HTMLInputElement).value,
     description: (document.getElementById("description") as HTMLInputElement).value,
     capacity: parseInt((document.getElementById("capacity") as HTMLInputElement).value),
-    imageUrl: (document.getElementById("imageUrl") as HTMLInputElement).value,
+    imageUrls: Array.from(document.querySelectorAll(".image-input"))
+    .map(input => (input as HTMLInputElement).value)
+    .filter(url => url.trim() !== ""),
+
     latitude: parseFloat((document.getElementById("latitude") as HTMLInputElement).value),
     longitude: parseFloat((document.getElementById("longitude") as HTMLInputElement).value),
     ownerId: ownerId,
@@ -152,5 +183,29 @@ function renderMeals(meals: Meal[]) {
     });
   });
 }
+
+addImageBtn.addEventListener("click", () => {
+  const wrapperDiv = document.createElement("div");
+  wrapperDiv.classList.add("image-url-group");
+
+  const newInput = document.createElement("input");
+  newInput.type = "text";
+  newInput.name = "imageUrl";
+  newInput.placeholder = "https://example.com/slika.jpg";
+  newInput.classList.add("image-input");
+
+  const removeBtn = document.createElement("button");
+  removeBtn.type = "button";
+  removeBtn.textContent = "Obriši";
+  removeBtn.classList.add("remove-image-btn");
+  removeBtn.addEventListener("click", () => {
+    wrapperDiv.remove();
+  });
+
+  wrapperDiv.appendChild(newInput);
+  wrapperDiv.appendChild(removeBtn);
+  imageInputsContainer.appendChild(wrapperDiv);
+});
+
 
 loadData();
