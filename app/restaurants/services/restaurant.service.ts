@@ -36,6 +36,22 @@ export class RestaurantService {
       });
   }
 
+  getPaged(ownerId: number = 0,page: number, pageSize: number, orderBy: string = "Name", orderDirection: "ASC" | "DESC" = "ASC"): Promise<Restaurant[]> {
+  const url = `${this.apiUrl}?ownerId=${ownerId}&page=${page}&pageSize=${pageSize}&orderBy=${orderBy}&orderDirection=${orderDirection}`;
+
+  return fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        return response.text().then(text => { throw new Error(text); });
+      }
+      return response.json();
+    })
+    .catch(error => {
+      console.error(`Error fetching paginated restaurants:`, error.message);
+      throw error;
+    });
+}
+
   create(restaurant: Restaurant): Promise<void> {
     return fetch(this.apiUrl, {
       method: "POST",

@@ -6,7 +6,7 @@ const guideToursLink = document.querySelector('#vodic-ture') as HTMLElement;
 function setUserLoginState(isLoggedIn: boolean) {
     if (isLoggedIn) {
         const role = localStorage.getItem('role');
-        if (role === 'vlasnik') {
+        if (role === 'vlasnik' || role === 'turista') {
             restaurantsLink.style.display = 'block';
         } else {
             restaurantsLink.style.display = 'none';
