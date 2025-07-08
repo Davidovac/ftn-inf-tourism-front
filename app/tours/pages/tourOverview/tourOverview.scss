@@ -1,0 +1,12 @@
+@use '../../../styles/global.scss' as *;
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+body {
+    height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
