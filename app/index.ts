@@ -1,6 +1,7 @@
 const loginLink = document.querySelector('#login') as HTMLElement;
 const logoutLink = document.querySelector('#logout') as HTMLElement;
 const restaurantsLink = document.querySelector('#restaurants') as HTMLElement;
+const guideToursLink = document.querySelector('#vodic-ture') as HTMLElement;
 
 function setUserLoginState(isLoggedIn: boolean) {
     if (isLoggedIn) {
@@ -11,9 +12,16 @@ function setUserLoginState(isLoggedIn: boolean) {
             restaurantsLink.style.display = 'none';
         }
 
+        if (role === 'vodic') {
+            guideToursLink.style.display = 'block';
+        } else {
+            guideToursLink.style.display = 'none';
+        }
+
         loginLink.style.display = 'none';
         logoutLink.style.display = 'block';
     } else {
+        guideToursLink.style.display = 'none';
         restaurantsLink.style.display = 'none';
         loginLink.style.display = 'block';
         logoutLink.style.display = 'none';

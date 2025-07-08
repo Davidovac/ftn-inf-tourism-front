@@ -21,7 +21,7 @@ function initializeForm(): void{
 
     const tempPage = new URLSearchParams(window.location.search).get('page')  
     if (tempPage === null || Number(tempPage) === 0) {
-      updateURL(tempPage)
+      updateURL(0)
     }
 
     pageButtonsDisplay()

@@ -4,12 +4,28 @@ const userService = new UserService();
 const loginLink = document.querySelector('#login') as HTMLElement;
 const logoutLink = document.querySelector('#logout') as HTMLElement;
 const submitButton = document.querySelector("#submit") as HTMLElement;
+const guideToursLink = document.querySelector('#vodic-ture') as HTMLElement;
 
 function setUserLoginState(isLoggedIn: boolean) {
     if (isLoggedIn) {
+        const role = localStorage.getItem('role');
+        if (role === 'vlasnik') {
+            restaurantsLink.style.display = 'block';
+        } else {
+            restaurantsLink.style.display = 'none';
+        }
+
+        if (role === 'vodic') {
+            guideToursLink.style.display = 'block';
+        } else {
+            guideToursLink.style.display = 'none';
+        }
+
         loginLink.style.display = 'none';
         logoutLink.style.display = 'block';
     } else {
+        guideToursLink.style.display = 'none';
+        restaurantsLink.style.display = 'none';
         loginLink.style.display = 'block';
         logoutLink.style.display = 'none';
     }

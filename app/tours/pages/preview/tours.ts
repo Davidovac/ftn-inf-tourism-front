@@ -15,9 +15,9 @@ function initialize(): void{
     toFormBtn.addEventListener("click", function () {
         window.location.href = "../tourForm/tourForm.html?page=1";
     })
-    toursService.getTours(guideId)
+    toursService.getToursByGuide(guideId)
     .then(data => {
-        renderData(data)
+        renderData(data.data)
     })
     .catch(error =>{
         console.error(error.status, error.text)
