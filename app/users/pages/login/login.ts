@@ -29,10 +29,10 @@ function handleLogin(event: Event) {
             localStorage.setItem('role', user.role);
             localStorage.setItem('userId', user.id.toString())
             if (user.role === "vlasnik") {
-              localStorage.setItem("userId", user.id.toString());
+              localStorage.setItem("vlasnikId", user.id.toString());
             } else {
-              if (localStorage.getItem("userId")) {
-                localStorage.removeItem("userId");
+              if (localStorage.getItem("vlasnikId")) {
+                localStorage.removeItem("vlasnikId");
               }
             }
             if (user.role === "vodic") {

@@ -71,6 +71,32 @@
                     <div id="modalMenu" class="modal-menu"></div>
                 </div>
             </div>
+            <div id="reservations">
+                <div class="reservation-div">Rezervacije: </div>
+                <form id="reservationForm">
+                    <div class="form-group">
+                        <label for="date">Datum:</label>
+                        <input type="date" name="date" id="date" required />
+                        <div id="dateError" class="error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="time">Vreme:</label>
+                        <select id="time" required>
+                        <option value="dorucak">Doručak 08:00</option>
+                        <option value="rucak">Ručak 13:00</option>
+                        <option value="vecera">Večera 18:00</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="people">Broj osoba:</label>
+                        <input type="number" id="people" placeholder="Unesite broj osoba" required />
+                    </div>
+
+                    <button type="submit" id="submitBtn">Potvrdi rezervaciju</button>
+                </form>
+            </div>
         </div>
     </div>
 

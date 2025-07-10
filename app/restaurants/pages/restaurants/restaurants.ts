@@ -1,5 +1,8 @@
 import { RestaurantService } from "../../../../dist/restaurants/services/restaurant.service.js";
 import { Meal } from "../../models/meal.model.js";
+import { Reservation } from "../../models/reservation.modle.js";
+import { ReservationService } from "../../services/reservations.service.js";
+
 const addRestaurantBtn = document.querySelector('#addRestaurantBtn') as HTMLButtonElement;
 const buttonOne = document.querySelector('#button-one') as HTMLButtonElement;
 const buttonTwo = document.querySelector('#button-two') as HTMLButtonElement;
@@ -9,6 +12,10 @@ const nextPageBtn = document.getElementById("nextPageBtn") as HTMLButtonElement;
 const currentPageSpan = document.getElementById("currentPage") as HTMLSpanElement;
 const sortBySelect = document.getElementById("sortBy-select") as HTMLSelectElement;
 const sortInSelect = document.getElementById("sortIn-select") as HTMLSelectElement;
+const form = document.getElementById("reservationForm") as HTMLFormElement;
+const reservations = document.getElementById("reservations") as HTMLElement;
+const dateInput = document.getElementById("date") as HTMLInputElement;
+const dateError = document.getElementById("dateError") as HTMLSpanElement;
 
 const modal = document.getElementById("restaurantModal")!;
 const closeModalBtn = document.getElementById("closeModal")!;
@@ -17,10 +24,11 @@ const modalDescription = document.getElementById("modalDescription")!;
 const modalImages = document.getElementById("modalImages")!;
 const modalMenu = document.getElementById("modalMenu")!;
 
-
+const reservationService = new ReservationService();
 const restaurantService = new RestaurantService();
 const list = document.getElementById("restaurantList")!;
-const ownerIdString = localStorage.getItem("userId");
+const ownerIdString = localStorage.getItem("vlasnikId");
+const userId = localStorage.getItem("userId")
 const ownerId = ownerIdString ? parseInt(ownerIdString) : null;
 
 let pageCount = 20;
@@ -96,11 +104,12 @@ async function loadRestaurants() {
     const data = await restaurantService.getPaged(ownerId ? ownerId : 0, currentPage, pageCount, sortBy, sortIn);
     const restaurants = data.data
     const restaurantCount = data.totalCount;
-    console.log("restaurants", restaurants)
-    console.log("count", restaurantCount)
     
     if(!ownerId){
-        addRestaurantBtn.classList.add("hidden");        
+        addRestaurantBtn.classList.add("hidden");   
+    }
+    else {
+        reservations.classList.add("hidden")     
     }
 
     if (restaurantCount) {
@@ -141,7 +150,6 @@ async function loadRestaurants() {
 
             h3.addEventListener("click", () =>{
                 showDetails(r.id)
-                console.log(h3.textContent)
             })
 
             const p = document.createElement("p");
@@ -226,7 +234,6 @@ function showDetails(id) {
     modalMenu.innerHTML = "";
 
     if (restaurant.imageUrls) {
-        console.log("restaurant.imageUrls", restaurant.imageUrls)
         restaurant.imageUrls.forEach((imgUrl: string) => {
             const img = document.createElement("img");
             img.src = imgUrl;
@@ -239,13 +246,58 @@ function showDetails(id) {
 
     showMeals(restaurant.meals)
 
+    dateInput.addEventListener("change", () => {
+    const today = new Date();
+    const selectedDate = new Date(dateInput.value);
+
+    // Postavi vreme na 00:00:00 da se upoređuje samo datum, bez vremena
+    today.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0);
+
+    if (selectedDate < today) {
+        dateError.textContent = "Datum ne može biti u prošlosti.";
+        dateInput.setCustomValidity("Datum ne može biti u prošlosti.");
+    } else {
+        dateError.textContent = "";
+        dateInput.setCustomValidity("");
+    }
+    });
+
+    form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const dateInputValue = (document.getElementById("date") as HTMLInputElement).value;
+    const timeSelect = (document.getElementById("time") as HTMLSelectElement).value;
+    const peopleInput = (document.getElementById("people") as HTMLInputElement).value;
+
+    const reservationData: Reservation = {
+        userId : parseInt(userId),
+        restaurantId: restaurant.id,
+        date: dateInputValue,
+        mealTime: timeSelect,
+        numberOfPeople: parseInt(peopleInput)
+    };
+
+    try {
+    await reservationService.create(reservationData);
+    alert("Rezervacija uspešna!")
+    form.reset();
+    modal.classList.add("hidden");
+    
+    } 
+    catch (error) {
+        console.error("Greška:", (error as Error).message);
+        alert((error as Error).message);
+    }
+    
+    })
+
     modal.classList.remove("hidden");
     })
 }
 
 
 function showMeals(meals: Meal[]) {
-    console.log("meals?", meals)
   const mealsContainer = document.getElementById("modalMenu") as HTMLElement;
   mealsContainer.innerHTML = meals.length === 0
     ? "<p>Nema jela.</p>"
