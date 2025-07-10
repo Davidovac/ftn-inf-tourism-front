@@ -90,7 +90,7 @@ function getData() {
         renderData(data.data)
     })
     .catch(error =>{
-        console.error(error.status, error.text)
+        console.error(error.status, error.message)
     })
 }
 
@@ -220,10 +220,16 @@ function expandRow(row: TourRowElement, tour: Tour) {
     const descLabel = document.createElement('p')
     descLabel.classList.add('label')
     const desc = document.createElement('p')
-    descLabel.textContent = 'Opis:'
-    let shorter = tour.description.substring(0, 265)
-    shorter += "..."
-    desc.textContent = shorter
+    descLabel.textContent = 'Opis:';
+    if (tour.description && tour.description.length > 265) {
+      let shorter = tour.description.substring(0, 265)
+      shorter += "..."
+      desc.textContent = shorter
+    }
+    else {
+      desc.textContent = tour.description
+    }
+    
 
     secondInfoDiv.appendChild(descLabel)
     secondInfoDiv.appendChild(desc)
@@ -267,7 +273,7 @@ function expandRow(row: TourRowElement, tour: Tour) {
     }
 
     const seeMore = document.createElement('a')
-    seeMore.href = '../tourOverview/tourOverview.html/' + tour.id
+    seeMore.href = '../tourOverview/tourOverview.html?id=' + tour.id
     seeMore.textContent = 'Saznaj vise'
     seeMore.id = 'see-more'
 

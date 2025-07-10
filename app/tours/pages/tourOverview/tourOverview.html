@@ -7,7 +7,41 @@
     <title>Tour Overview</title>
 </head>
 <body>
-    
+    <nav class="navbar">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="../../../index.html">Home</a></li>
+            <li class="nav-item" id="restaurants"><a href="../../../restaurants/pages/restaurants/restaurants.html">Restaurants</a></li>
+            <li class="nav-item" id="guide-tours"><a href="../preview/tours.html">Tours</a></li>
+            <li class="nav-item" id="tours-catalog"><a href="../toursCatalog/toursCatalog.html">Tours</a></li>
+            <li class="nav-item" id="user-reservations"><a href="../../../users/pages/userReservations/userReservations.html">Tours</a></li>
+            <li class="nav-item" id="login"><a href="../../../users/pages/login/login.html">Login</a></li>
+            <li class="nav-item" id="logout"><a href="../../../index.html">Logout</a></li>
+        </ul>
+    </nav>
+    <div id="main-container">
+        <div id="tour-and-reserve-block">
+            <div id="tour-info-block">
+                <h2 id="tour-name"></h2>
+                <div id="dateTimeDiv"><p id="dateTimeLabel"></p><p id="dateTime"></p></div>
+                <div id="maxGuestsDiv"><p id="maxGuestsLabel"></p><p id="maxGuests"></p></div>
+                <div id="tourDescDiv"><p id="tourDescLabel"></p><p id="tourDesc"></p></div>
+            </div>
+            <div id="reservation-block">
+                <p id="reserve-caution">Zelis da rezervises? <br>Samo ispod unesi broj osoba manji od maksimalnog i lep provod!</p>
+                <span id="guestsCountError"></span>
+                <input type="number" id="guest-count-input">
+                <button id="submitBtn">Reserve</button>
+            </div>
+        </div>
+        <div id="key-points-block">
+            <div class="single-kp-block"></div>
+            <div class="single-kp-block"></div>
+            <div class="single-kp-block"></div>
+            <div class="single-kp-block"></div>
+        </div>
+    </div>
+    <div id="loadingSpinner" class="spinner"></div>
+
     <script type="module" src="../../../../dist/authentication/auth.js"></script>
     <script type="module" src="../../../../dist/tours/pages/tourOverview/tourOverview.js"></script>
 </body>

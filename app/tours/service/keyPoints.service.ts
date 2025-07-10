@@ -20,8 +20,10 @@ export class KeyPointService {
     return fetch(this.apiUrl + "?page=" + page)
       .then((response) => {
         if (!response.ok) {
-          throw { status: response.status, text: response.text };
-        }
+          return response.text().then(errorMessage => {
+            throw { status: response.status, message: errorMessage }
+            })
+          }
         return response.json();
       })
       .then((data) => {

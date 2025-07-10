@@ -16,8 +16,10 @@ export class ToursService {
     return fetch(this.apiUrl + "?page=" + page + "&pageSize=" + pageSize + "&orderBy=" + orderBy + "&orderDirection=" + orderDirection)
       .then((response) => {
         if (!response.ok) {
-          throw { status: response.status, text: response.text };
-        }
+          return response.text().then(errorMessage => {
+            throw { status: response.status, message: errorMessage }
+            })
+          }
         return response.json();
       })
       .then((responseData) => {
@@ -56,8 +58,10 @@ export class ToursService {
     return fetch(this.apiUrl + "?" + id)
       .then((response) => {
         if (!response.ok) {
-          throw { status: response.status, text: response.text };
-        }
+          return response.text().then(errorMessage => {
+            throw { status: response.status, message: errorMessage }
+            })
+          }
         return response.json();
       })
       .then((responseData) => {
@@ -95,8 +99,10 @@ export class ToursService {
     return fetch(this.apiUrl + "/" + id)
       .then((response) => {
         if (!response.ok) {
-          throw { status: response.status, message: response.text };
-        }
+          return response.text().then(errorMessage => {
+            throw { status: response.status, message: errorMessage }
+            })
+          }
         return response.json();
       })
       .then((tour: Tour) => {
@@ -135,8 +141,10 @@ export class ToursService {
     })
       .then((response) => {
         if (!response.ok) {
-          throw { status: response.status, text: response.text };
-        }
+          return response.text().then(errorMessage => {
+            throw { status: response.status, message: errorMessage }
+            })
+          }
         return response.json();
       })
       .then((data) => {
@@ -154,9 +162,11 @@ export class ToursService {
     })
       .then((response) => {
         if (!response.ok) {
-          throw { status: response.status, text: response.text };
-        }
-        return response.status;
+          return response.text().then(errorMessage => {
+            throw { status: response.status, message: errorMessage }
+            })
+          }
+        return response.json();
       })
       .catch((error) => {
         console.error("Error: " + error.status);

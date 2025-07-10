@@ -99,7 +99,7 @@ function initializeForm(): void{
       })
       .catch(error => {
         alert('Tour not found!')
-        console.error(error.status, error.text)
+        console.error(error.status, error.message)
       })
     }
     validityCheck()
@@ -137,10 +137,10 @@ function submit(): void{
 
     toursService.addOrUpdate(reqBody)
     .catch((error) => {
-        console.error("Error: " + error.text);
-        if (error.response && error.response.status === 404) {
+        console.error("Error: " + error.message);
+        if (error.status && error.status === 404) {
           alert("User does not exist.");
-        } else if (error.response && error.response === 400) {
+        } else if (error.status && error.status === 400) {
           alert("Data is invalid");
         } else {
           alert(
@@ -399,9 +399,9 @@ function renderCatalogData() {
     })
     .catch((error) => {
       console.error("Error: " + error.message);
-      if (error.response && error.response.status === 404) {
+      if (error.status && error.status === 404) {
         alert("No Key Points found.");
-      } else if (error.response && error.response === 400) {
+      } else if (error.status && error.status === 400) {
         alert("Data is invalid");
       } else {
         alert(
@@ -424,9 +424,9 @@ function getAddedData(){
     })
     .catch((error) => {
       console.error("Error: " + error.message);
-      if (error.response && error.response.status === 404) {
+      if (error.status && error.response.status === 404) {
         alert("Tour does not exist.");
-      } else if (error.response && error.response === 400) {
+      } else if (error.status && error.status === 400) {
         alert("Data is invalid");
       } else {
         alert(

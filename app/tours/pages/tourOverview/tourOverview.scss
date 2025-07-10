@@ -5,8 +5,189 @@
   100% { transform: rotate(360deg); }
 }
 
+.spinner {
+  position: absolute;
+  display: none; /* Spinner je sakrivan podrazumevano u startu */
+  width: 40px;
+  height: 40px;
+  margin: 10px auto;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  top: 40%;
+  left: 50%;
+  color: #155ce0;
+}
+
+$label-color: #1c2e41;
+
 
 body {
     height: 100vh;
     font-family: 'Inter', sans-serif;
+    width: 100%;
+    background-color: rgb(33, 68, 95);
+}
+
+h2 {
+  color: #08396e;
+}
+
+
+span {
+    color: red;
+}
+//------------------CONTAINER-TREE-----------
+
+#main-container {
+  margin: 0 8vw;
+  display: flex;
+  background-color: rgb(206, 222, 238);
+  width: 85%;
+  #tour-and-reserve-block {
+    background-color: rgb(206, 222, 233);
+    height: 110vh;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    #tour-info-block {
+      padding: 0 2vh;
+      height: 50vh;
+      display: flex;
+      flex-direction: column;
+      #tour-name {
+        margin-top: 5vh;
+        align-self: center;
+      }
+      #dateTimeDiv {
+        align-self: center;
+        margin-top: 2vh;
+        margin-left: -8vh;
+        display: flex;
+        align-items: center;
+        #dateTimeLabel {
+          text-align: right;
+          margin-right: 1vh;
+          width: 15vh;
+          color: $label-color;
+        }
+        #dateTime {
+          white-space: pre-wrap;
+          text-align: center;
+          font-weight: 600;
+          color: #2b609c;
+        }
+      }
+      #maxGuestsDiv {
+        margin-left: -11vh;
+        align-self: center;
+        display: flex;
+        margin-bottom: 2vh ;
+        #maxGuestsLabel {
+          color:$label-color;
+          margin-right: 1vh;
+        }
+        #maxGuests {
+          font-weight: 600;
+          color: #2b609c;
+        }
+      }
+      #tourDescDiv {
+        flex-grow: 1;
+        padding-right: 1vh;
+        border-radius: 26px;
+        box-shadow: 0 3px 8px rgba(27, 43, 56, 0.123);
+      border-radius: 26px;
+      background-color: rgb(217, 230, 243);
+        #tourDescLabel {
+          margin-left: 2vh;
+          color: $label-color;
+          font-weight: bolder;
+        }
+
+        #tourDesc {
+          margin-left: 2vh;
+          color: #15305a;
+          font-style: italic;
+        }
+      }
+
+    }
+    #reservation-block {
+      margin-top: 4vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 90%;
+      align-self: center;
+      box-shadow: 0 3px 8px rgba(27, 43, 56, 0.123);
+      border-radius: 26px;
+      background-color: rgb(187, 207, 226);
+      #reserve-caution {
+        margin-top: 3vh;
+        margin-left: 2vh;
+        width: 55%;
+        color: rgb(50, 87, 119);
+      }
+      #guest-count-input {
+        margin: 2vh 0;
+        width: 60%;
+      }
+      #reserve-btn {
+        margin: 2vh 0;
+        background-color: #1d72e2;
+        border-radius: 15px;
+        width: 30%;
+      }
+
+    }
+  }
+
+  #key-points-block {
+    margin-top: 8vh;
+    width: 75%;
+    padding: 1vh;
+    display: flex;
+    flex-wrap: wrap;
+    .single-kp-block {
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.363);
+      background-color: rgb(28, 90, 131);
+      border-radius: 10px;
+      width: 48%;
+      margin: 1vh 1vh;
+      display: flex;
+      height: 55vh;
+      .left-column-block {
+        img {
+          border-radius: 12px;
+          margin: 2vh;
+          width: 24vh;
+          background-color: rgb(130, 168, 204);
+          box-shadow: 0 7px 12px rgba(37, 37, 37, 0.521);
+        }
+      }
+      .right-column-block {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        &>div {
+          margin: 2vh 1vh;
+        }
+        h3 {
+          margin-left: -1vh;
+          margin-top: 3vh;
+          text-align: center;
+          color: #cbddf3;
+        }
+        p {
+          color: #cbdef1;
+          font-style: italic;
+          flex-grow: 1;
+          width: 95%;
+          text-align: center;
+        }
+      }
+    }
+  }
 }

@@ -1,5 +1,4 @@
 import { Reservation } from "../model/reservation.model.js";
-import { ReservationData } from "../model/reservationData.model.js";
 import { ReservationFormData } from "../model/reservationFormData.model.js";
 
 export class ReservationsService {
@@ -9,7 +8,7 @@ export class ReservationsService {
     this.apiUrl = "http://localhost:5105/api/reservations";
   }
 
-  getByUser(userIdStr: string): Promise<ReservationData | null> {
+  getByUser(userIdStr: string): Promise<Reservation[] | null> {
       const id = Number(userIdStr);
       if (Number.isNaN(id)) {
         console.log("Invalid number format.");
@@ -18,27 +17,25 @@ export class ReservationsService {
       return fetch(this.apiUrl + "?userId=" + id)
         .then((response) => {
           if (!response.ok) {
-            throw { status: response.status, text: response.text };
+            return response.text().then((errorMessage) => {
+              throw { status: response.status, message: errorMessage };
+            });
           }
           return response.json();
         })
         .then((responseData) => {
           const reservations: Reservation[] = [];
-          for (const element of responseData.data) {
+          for (const element of responseData) {
             const reservation: Reservation = new Reservation(
               element.id,
               element.guestsCount,
-              element.user,
               element.userId,
-              element.tour,
-              element.tourId
+              element.tourId,
+              element.tour
             );
             reservations.push(reservation);
           }
-          const data = reservations
-          const totalCount = responseData.totalCount
-          const reservationData: ReservationData = {data, totalCount}
-          return reservationData;
+          return reservations;
         })
         .catch((error) => {
           console.error("Error:", error.status);
@@ -59,8 +56,11 @@ export class ReservationsService {
     })
       .then((response) => {
         if (!response.ok) {
-          throw { status: response.status, text: response.text };
-        }
+          return response.text().then(errorMessage => {
+             console.warn("Non-OK response text:", errorMessage);
+            throw { status: response.status, message: errorMessage }
+            })
+          }
         return response.json();
       })
       .then((data) => {
@@ -84,8 +84,10 @@ export class ReservationsService {
     })
       .then((response) => {
         if (!response.ok) {
-          throw { status: response.status, text: response.text };
-        }
+          return response.text().then(errorMessage => {
+            throw { status: response.status, message: errorMessage }
+            })
+          }
         return response.status;
       })
       .catch((error) => {

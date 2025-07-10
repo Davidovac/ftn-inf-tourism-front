@@ -1,7 +1,7 @@
 import { KeyPoint } from "./keyPoint.model.js"
 
 export interface TourFormData {
-    id?: number
+    id?: number,
     name: string,
     description: string,
     dateTime: string,
