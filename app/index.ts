@@ -13,10 +13,9 @@ function setUserLoginState(isLoggedIn: boolean) {
         restaurantsLink.style.display = 'none';
         toursCatalogLink.style.display = 'none';
         userReservationsLink.style.display = 'none';
-
+        
         if (role === 'vlasnik') {
             restaurantsLink.style.display = 'block';
-            toursCatalogLink.style.display = 'block';
         }
 
         if (role === 'vodic') {
@@ -27,6 +26,7 @@ function setUserLoginState(isLoggedIn: boolean) {
         if (role === 'turista') {
             toursCatalogLink.style.display = 'block';
             userReservationsLink.style.display = 'block';
+            restaurantsLink.style.display = 'block';
         }
 
         loginLink.style.display = 'none';
