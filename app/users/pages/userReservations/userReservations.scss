@@ -1,0 +1,25 @@
+@use '../../../styles/global.scss' as *;
+@use '../../../tours/pages/preview/tours.scss';
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+body {
+    height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+
+
+.cancelable {
+  background-color: $warn-color;
+}
+
+.uncancelable {
+  background-color: #9c9c9c;
+  color: white;
+  cursor: default;
+}

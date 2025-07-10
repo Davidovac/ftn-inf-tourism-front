@@ -142,7 +142,7 @@ function renderData(data: Tour[]): void {
                 window.location.assign(window.location.href);
               })
               .catch((error) => {
-                console.error(error.status, error.text);
+                console.error(error.status, error.message);
               });
           });
           publishBtnCell.appendChild(publishBtn);
@@ -188,7 +188,7 @@ function renderData(data: Tour[]): void {
             window.location.assign(window.location.href);
           })
           .catch((error) => {
-            console.error(error.status, error.text);
+            console.error(error.status, error.message);
           });
         }
       });

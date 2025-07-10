@@ -1,12 +1,40 @@
 const loginLink = document.querySelector('#login') as HTMLElement | null;
 const logoutLink = document.querySelector('#logout') as HTMLElement | null;
+const guideToursLink = document.querySelector('#guide-tours') as HTMLElement | null;
+const restaurantsLink = document.querySelector('#restaurants') as HTMLElement | null;
+const toursCatalogLink = document.querySelector('#tours-catalog') as HTMLElement | null;
+const userReservationsLink = document.querySelector('#user-reservations') as HTMLElement | null;
 
 export function setUserLoginState(isLoggedIn: boolean) {
     if (!loginLink || !logoutLink) return;
     if (isLoggedIn) {
+        const role = localStorage.getItem('role');
+
+        guideToursLink.style.display = 'none';
+        restaurantsLink.style.display = 'none';
+        toursCatalogLink.style.display = 'none';
+        userReservationsLink.style.display = 'none';
+
+        if (role === 'vlasnik') {
+            restaurantsLink.style.display = 'block';
+            toursCatalogLink.style.display = 'block';
+        }
+
+        if (role === 'vodic') {
+            guideToursLink.style.display = 'block';
+            toursCatalogLink.style.display = 'block';
+        }
+
+        if (role === 'turista') {
+            toursCatalogLink.style.display = 'block';
+            userReservationsLink.style.display = 'block';
+        }
+
         loginLink.style.display = 'none';
         logoutLink.style.display = 'block';
     } else {
+        guideToursLink.style.display = 'none';
+        restaurantsLink.style.display = 'none';
         loginLink.style.display = 'block';
         logoutLink.style.display = 'none';
     }
