@@ -197,8 +197,8 @@ body {
 
 .modal-content {
   background-color: #fff;
-  width: 70vw;
-  height: 80vh;
+  width: 62vw;
+  height: 85vh;
   display: flex;
   flex-direction: column;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
@@ -245,7 +245,7 @@ body {
   color: #555;
 }
 
-.gallery, .menu{
+.gallery, .menu, .reservation-div{
   padding: 10px;
   font-weight: bold;
   font-size: 1rem;
@@ -302,4 +302,64 @@ body {
       border-radius: 6px;
     }
   }
+}
+
+#reservationForm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: nowrap;
+  padding: 10px 0;
+}
+
+#reservationForm .form-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+#reservationForm label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #444;
+}
+
+#reservationForm input[type="date"],
+#reservationForm input[type="number"],
+#reservationForm select {
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 140px;
+}
+
+#submitBtn {
+  background-color: $button-color;
+  color: white;
+  font-weight: bold;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  height: 50px;
+  width: 120px;
+
+  &:hover {
+    background-color: darken($button-color, 10%);
+  }
+}
+
+#reservations {
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.error{
+  color: red; 
+  font-size: 1rem;
 }

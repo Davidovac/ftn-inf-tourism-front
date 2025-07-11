@@ -57,10 +57,10 @@ function handleLogin(event: Event) {
             localStorage.setItem('role', user.role);
             localStorage.setItem('userId', user.id.toString())
             if (user.role === "vlasnik") {
-              localStorage.setItem("ownerId", user.id.toString());
+              localStorage.setItem("vlasnikId", user.id.toString());
             } else {
-              if (localStorage.getItem("ownerId")) {
-                localStorage.removeItem("ownerId");
+              if (localStorage.getItem("vlasnikId")) {
+                localStorage.removeItem("vlasnikId");
               }
             }
             if (user.role === "vodic") {
