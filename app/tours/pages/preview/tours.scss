@@ -1,8 +1,9 @@
 @use '../../../styles/global.scss' as *;
 
 button {
-    padding: 0.3rem 0.5rem;
+    padding: 0.35rem 0.7rem;
     margin: 0.5rem;
+    border-radius: 15px;
 }
 
 div{
@@ -19,13 +20,57 @@ table {
     }
     td {
         border: 1px solid $primary-color;
-        background-color: white;
+        background-color: #f2fbff;
         padding: 0.3rem 0.8rem;
         color: #522908;
         text-align: center;
     }
 }
 
+.row {
+    &:hover {
+        td {
+            background-color: #e2f6ff;
+        }
+    }
+}
+
 .delete {
     background-color: $warn-color;
+}
+
+.publish-btn {
+    width: fit-content;
+    height: auto;
+    background-color: #9c9c9c;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  overflow: visible;
+}
+
+/* Tooltip text */
+.tooltip .tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: rgb(58, 55, 61);
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 8px;
+  border: 1px solid white;
+
+  left: 72%;
+  bottom: 69%;
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  transition-delay: 1.0s;
+  opacity: 1;
 }

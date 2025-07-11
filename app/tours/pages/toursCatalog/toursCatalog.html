@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../../dist/tours/pages/toursCatalog/toursCatalog.css">
+    <title>Katalog tura</title>
+</head>
+<body>
+     <nav class="navbar">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="../../../index.html">Home</a></li>
+            <li class="nav-item" id="restaurants"><a href="../../../restaurants/pages/restaurants/restaurants.html">Restaurants</a></li>
+            <li class="nav-item" id="guide-tours"><a href="../../pages/preview/tours.html">Tours</a></li>
+            <li class="nav-item" id="user-reservations"><a href="../../../users/pages/userReservations/userReservations.html">Tours</a></li>
+            <li class="nav-item" id="login"><a href="../../../users/pages/login/login.html">Login</a></li>
+            <li class="nav-item" id="logout"><a href="../../../index.html">Logout</a></li>
+        </ul>
+    </nav>
+    <h2>Katalog tura</h2>
+    <div id="main-container">
+        <div id="sort-container">
+            <div id="sort-block-container">
+                <div id="sort-box">
+                    <p id="sort-by-label">Sortiraj po:</p>
+                    <select name="sortByPicker" id="sortByPicker">
+                        <option value="Name">Naziv</option>
+                        <option value="MaxGuests">Max. br mesta</option>
+                        <option value="DateTime">Vreme pocetka</option>
+                    </select>
+                    <p id="asc-button">ASC</p>
+                    <p id="desc-button">DESC</p>
+                </div>
+                <div id="page-size-box">
+                    <p>Velicina strane:</p>
+                    <select name="pageSizePicker" id="pageSizePicker">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="catalog-container"></div>
+        <div id="paging-buttons">
+            <div id="buttonFirstPage" class="circle"></div>
+            <div id="buttonPreviousPage" class="circle"></div>
+            <div id="buttonCurrentPage" class="square"></div>
+            <div id="buttonNextPage" class="circle"></div>
+            <div id="buttonLastPage" class="circle"></div>
+        </div>
+    </div>
+
+    <script type="module" src="../../../../dist/authentication/auth.js"></script>
+    <script type="module" src="../../../../dist/tours/pages/toursCatalog/toursCatalog.js"></script>
+</body>
+</html>

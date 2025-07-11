@@ -1,4 +1,5 @@
 import { Tour } from "../../model/tour.model.js";
+import { TourFormData } from "../../model/tourFormData.model.js";
 import { ToursService } from "../../service/tours.service.js";
 
 const toursService = new ToursService()
@@ -12,11 +13,11 @@ function initialize(): void{
     const toFormBtn = document.querySelector('#toForm')
     toFormBtn.textContent = 'Dodaj turu'
     toFormBtn.addEventListener("click", function () {
-        window.location.href = '../tourForm/tourForm.html'
+        window.location.href = "../tourForm/tourForm.html?page=1";
     })
-    toursService.getTours(guideId)
+    toursService.getToursByGuide(guideId)
     .then(data => {
-        renderData(data)
+        renderData(data.data)
     })
     .catch(error =>{
         console.error(error.status, error.text)
@@ -24,24 +25,25 @@ function initialize(): void{
 }
 
 function renderData(data: Tour[]): void {
-    const table = document.querySelector("table");
-    const noDataMessage = document.querySelector("#no-data-message");
+  const table = document.querySelector("table");
+  const noDataMessage = document.querySelector("#no-data-message");
 
-    if (data.length === 0) {
-      table.classList.add("hidden");
-      noDataMessage.classList.remove("hidden");
-      return;
-    }
+  if (data.length === 0) {
+    table.classList.add("hidden");
+    noDataMessage.classList.remove("hidden");
+    return;
+  }
 
-    noDataMessage.classList.add("hidden");
-    table.classList.remove("hidden");
+  noDataMessage.classList.add("hidden");
+  table.classList.remove("hidden");
 
-    data.forEach((tour) => {
-      if (!localStorage.getItem('guideId')){
-        localStorage.setItem('guideId', tour.guideId.toString())
+  data.forEach((touR) => {
+    toursService.getById(touR.id.toString()).then((tour) => {
+      if (!localStorage.getItem("guideId")) {
+        localStorage.setItem("guideId", tour.guideId.toString());
       }
-      if (!tour.guide || tour.guide.username != localStorage.username){
-        return
+      if (!tour.guide || tour.guide.username != localStorage.username) {
+        return;
       }
       const tr = document.createElement("tr");
 
@@ -50,12 +52,31 @@ function renderData(data: Tour[]): void {
       tr.appendChild(name);
 
       const description = document.createElement("td");
-      description.textContent = tour.name;
-      tr.appendChild(description);
+      if (tour.description.length > 130){
+        const descP = document.createElement('p')
+        let shorter = tour.description.substring(0, 127)
+        shorter += "..."
+        descP.textContent = shorter
+
+        const tooltip = document.createElement('div') as HTMLElement
+        const tooltipTxt = document.createElement('span') as HTMLElement
+        tooltipTxt.textContent = tour.description
+        tooltip.classList.add('tooltip')
+        tooltipTxt.classList.add('tooltip-text')
+        tooltipTxt.style.width = '600px'
+        tooltip.appendChild(tooltipTxt)
+        tooltip.appendChild(descP)
+        description.appendChild(tooltip)
+        tr.appendChild(description)
+      }
+      else{
+        description.textContent = tour.description;
+        tr.appendChild(description);
+      }
 
       const dateTime = document.createElement("td");
       const date = new Date(tour.dateTime);
-      const formattedDate = date.toLocaleString()
+      const formattedDate = date.toLocaleString();
       dateTime.textContent = formattedDate;
       tr.appendChild(dateTime);
 
@@ -72,33 +93,112 @@ function renderData(data: Tour[]): void {
       const editBtn = document.createElement("button");
       editBtn.textContent = "Edit";
 
+      const publishBtnCell = document.createElement("td");
+      tr.appendChild(publishBtnCell);
+      const publishBtn = document.createElement("button") as HTMLButtonElement;
+      publishBtn.classList.add("publish-btn");
+      publishBtn.textContent = "Publish";
+
+      if (tour.status != "objavljeno") {
+        if (tour.description.length < 250 || tour.keyPoints.length < 2) {
+          publishBtn.classList.add("unpublishable");
+          publishBtn.disabled = true;
+          publishBtn.style.backgroundColor = "#9c9c9c";
+          publishBtn.style.color = "white";
+          publishBtn.style.cursor = "default";
+          publishBtn.addEventListener("mouseover", () => {
+            const publishedBtns = document.querySelectorAll(".unpublishable");
+            for (const element of publishedBtns) {
+              (element as HTMLButtonElement).style.opacity = "100%";
+            }
+          });
+
+          const tooltip = document.createElement('div') as HTMLElement
+          const tooltipTxt = document.createElement('span') as HTMLElement
+          tooltipTxt.textContent = 'Tura mora da ima makar 2 kljucne tacke i opis od makar 250 karaktera'
+          tooltip.classList.add('tooltip')
+          tooltipTxt.classList.add('tooltip-text')
+          tooltip.appendChild(tooltipTxt)
+          tooltip.appendChild(publishBtn)
+          publishBtnCell.appendChild(tooltip);
+        } 
+        else {
+          publishBtn.classList.add("publishable");
+          publishBtn.disabled = false;
+          publishBtn.style.backgroundColor = "#155ce0";
+          publishBtn.addEventListener("click", () => {
+            tour.status = "objavljeno";
+            const id = tour.id;
+            const name = tour.name;
+            const description = tour.description;
+            const dateTime = tour.dateTime;
+            const maxGuests = tour.maxGuests;
+            const status = tour.status;
+            const guideId = tour.guideId;
+            const keyPoints = tour.keyPoints;
+            const reqBody: TourFormData = {id, name, description, dateTime, maxGuests, status, guideId, keyPoints};
+            toursService.addOrUpdate(reqBody)
+              .then(() => {
+                window.location.assign(window.location.href);
+              })
+              .catch((error) => {
+                console.error(error.status, error.message);
+              });
+          });
+          publishBtnCell.appendChild(publishBtn);
+        }
+      } else if (tour.status && tour.status === "objavljeno") {
+        publishBtn.classList.add("published");
+        publishBtn.textContent = "Published";
+        publishBtn.disabled = true;
+        publishBtn.style.backgroundColor = "white";
+        publishBtn.style.color = "grey";
+        publishBtn.style.cursor = "default";
+        publishBtn.addEventListener("mouseover", () => {
+          const publishedBtns = document.querySelectorAll(".published");
+          for (const element of publishedBtns) {
+            (element as HTMLButtonElement).style.opacity = "100%";
+          }
+        });
+        publishBtnCell.appendChild(publishBtn);
+      }
+
+      tr.appendChild(publishBtnCell);
+
       editBtn.addEventListener("click", function () {
-        window.location.href = "../tourForm/tourForm.html?id=" + tour.id;
+        window.location.href =
+          "../tourForm/tourForm.html?id=" + tour.id + "&page=1";
       });
+      editBtn.style.backgroundColor = '#ffe365'
+      editBtn.style.color = 'black'
       editBtnCell.appendChild(editBtn);
 
       const deleteBtnCell = document.createElement("td");
       const deleteBtn = document.createElement("button");
-      deleteBtn.className = 'delete'
+      deleteBtn.className = "delete";
       deleteBtn.textContent = "Delete";
 
       deleteBtn.addEventListener("click", function () {
-        toursService.delete(tour.id)
+        if (confirm(`Are you sure you want to delete tour: ${tour.name}?`)) {
+          toursService.delete(tour.id)
           .then(() => {
-            alert('Tura ' + tour.name + ' je uspesno obrisana')
+            alert("Tura " + tour.name + " je uspesno obrisana");
           })
           .then(() => {
-            location.reload()
+            window.location.assign(window.location.href);
           })
           .catch((error) => {
-            console.error(error.status, error.text);
+            console.error(error.status, error.message);
           });
+        }
       });
-      deleteBtnCell.appendChild(deleteBtn)
-      tr.appendChild(deleteBtnCell)
+      deleteBtnCell.appendChild(deleteBtn);
+      tr.appendChild(deleteBtnCell);
 
-      table.appendChild(tr)
-    })
-  }
+      tr.classList.add('row')
+      table.appendChild(tr);
+    });
+  });
+}
 
 document.addEventListener('DOMContentLoaded', initialize)

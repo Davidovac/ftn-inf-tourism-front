@@ -4,12 +4,40 @@ const userService = new UserService();
 const loginLink = document.querySelector('#login') as HTMLElement;
 const logoutLink = document.querySelector('#logout') as HTMLElement;
 const submitButton = document.querySelector("#submit") as HTMLElement;
+const guideToursLink = document.querySelector('#guide-tours') as HTMLElement;
+const restaurantsLink = document.querySelector('#restaurants') as HTMLElement;
+const toursCatalogLink = document.querySelector('#tours-catalog') as HTMLElement;
+const userReservationsLink = document.querySelector('#user-reservations') as HTMLElement
 
 function setUserLoginState(isLoggedIn: boolean) {
     if (isLoggedIn) {
+        const role = localStorage.getItem('role');
+
+        guideToursLink.style.display = 'none';
+        restaurantsLink.style.display = 'none';
+        toursCatalogLink.style.display = 'none';
+        userReservationsLink.style.display = 'none';
+
+        if (role === 'vlasnik') {
+            restaurantsLink.style.display = 'block';
+            toursCatalogLink.style.display = 'block';
+        }
+
+        if (role === 'vodic') {
+            guideToursLink.style.display = 'block';
+            toursCatalogLink.style.display = 'block';
+        }
+
+        if (role === 'turista') {
+            toursCatalogLink.style.display = 'block';
+            userReservationsLink.style.display = 'block';
+        }
+
         loginLink.style.display = 'none';
         logoutLink.style.display = 'block';
     } else {
+        guideToursLink.style.display = 'none';
+        restaurantsLink.style.display = 'none';
         loginLink.style.display = 'block';
         logoutLink.style.display = 'none';
     }
@@ -42,6 +70,13 @@ function handleLogin(event: Event) {
                 localStorage.removeItem("guideId");
               }
             }
+            if (user.role === "turista") {
+                localStorage.setItem("userId", user.id.toString());
+            } else {
+              if (localStorage.getItem("userId")) {
+                localStorage.removeItem("userId");
+              }
+            }
             setUserLoginState(true);
             window.location.href = "../../../../app/index.html"
         })
@@ -58,6 +93,9 @@ function handleLogout() {
     }
     if (localStorage.getItem('guideId')){
         localStorage.removeItem('guideId')
+    }
+    if (localStorage.getItem('ownerId')){
+        localStorage.removeItem('ownerId')
     }
     setUserLoginState(false);
 }
