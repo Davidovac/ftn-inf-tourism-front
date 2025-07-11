@@ -35,6 +35,7 @@ let pageCount = 20;
 let currentPage = 1;
 let sortBy: "Name" | "Capacity" = "Name";
 let sortIn: "ASC" | "DESC" = "ASC";
+let selectedRestaurant;
 
 
 addRestaurantBtn.addEventListener('click', () => {
@@ -243,7 +244,7 @@ function showDetails(id) {
     } else {
         modalImages.textContent = "Nema slika enterijera.";
     }
-
+    selectedRestaurant = restaurant;
     showMeals(restaurant.meals)
 
     dateInput.addEventListener("change", () => {
@@ -263,7 +264,11 @@ function showDetails(id) {
     }
     });
 
-    form.addEventListener("submit", async (e) => {
+    modal.classList.remove("hidden");
+    })
+}
+
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const dateInputValue = (document.getElementById("date") as HTMLInputElement).value;
@@ -272,7 +277,7 @@ function showDetails(id) {
 
     const reservationData: Reservation = {
         userId : parseInt(userId),
-        restaurantId: restaurant.id,
+        restaurantId: selectedRestaurant.id,
         date: dateInputValue,
         mealTime: timeSelect,
         numberOfPeople: parseInt(peopleInput)
@@ -291,10 +296,6 @@ function showDetails(id) {
     }
     
     })
-
-    modal.classList.remove("hidden");
-    })
-}
 
 
 function showMeals(meals: Meal[]) {
