@@ -11,13 +11,13 @@ function initialize(): void{
     window.location.href = "../pages/login/login.html"
   }
     const userId = JSON.parse(localStorage.getItem('userId'))
-    // reservationsService.getByUser(userId)
-    // .then(data => {
-    //     renderTourReservations(data)
-    // })
-    // .catch(error =>{
-    //     console.error(error.status, error.text)
-    // })
+    reservationsService.getByUser(userId)
+    .then(data => {
+        renderTourReservations(data)
+    })
+    .catch(error =>{
+        console.error(error.status, error.text)
+    })
     renderRestaurantReservations(userId);
 }
 
