@@ -17,13 +17,11 @@ function setUserLoginState(isLoggedIn: boolean) {
         if (role === 'vlasnik') {
             restaurantsLink.style.display = 'block';
         }
-
-        if (role === 'vodic') {
+        else if (role === 'vodic') {
             guideToursLink.style.display = 'block';
             toursCatalogLink.style.display = 'block';
         }
-
-        if (role === 'turista') {
+        else if (role === 'turista') {
             toursCatalogLink.style.display = 'block';
             userReservationsLink.style.display = 'block';
             restaurantsLink.style.display = 'block';
@@ -47,6 +45,9 @@ function handleLogout() {
     localStorage.removeItem('role');
     if (localStorage.getItem('userId')){
     localStorage.removeItem('userId');
+    }
+    if (localStorage.getItem('vlasnikId')){
+    localStorage.removeItem('vlasnikId');
     }
     if (localStorage.getItem('guideId')){
         localStorage.removeItem('guideId')

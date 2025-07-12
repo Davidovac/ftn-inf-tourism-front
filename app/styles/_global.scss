@@ -69,6 +69,13 @@ button {
       &:hover {
         color: $accent-color;
       }
+
+      &.nav-active{
+        color: darken($primary-color, 40%);
+        font-weight: bold;
+        text-decoration: underline;
+        text-underline-offset: 8px;
+      }
     }
   }
 

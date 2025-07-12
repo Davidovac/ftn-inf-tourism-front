@@ -13,7 +13,7 @@ const addImageBtn = document.getElementById("addImageBtn") as HTMLButtonElement;
 const restaurantService = new RestaurantService();
 const urlParams = new URLSearchParams(window.location.search);
 const id = parseInt(urlParams.get("id"));
-const ownerId = parseInt(localStorage.getItem("userId"));
+const ownerId = parseInt(localStorage.getItem("vlasnikId"));
 
 let mealsList: Meal[] = [];
 
