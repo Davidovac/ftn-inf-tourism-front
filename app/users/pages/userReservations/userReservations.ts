@@ -1,7 +1,9 @@
 import { Reservation } from "../../../tours/model/reservation.model.js";
 import { ReservationsService } from "../../../tours/service/reservations.service.js";
+import { ReservationService } from "../../../restaurants/services/reservations.service.js";
 
 const reservationsService = new ReservationsService()
+const restaurantReservationService = new ReservationService()
 document.addEventListener('DOMContentLoaded', initialize)
 
 function initialize(): void{
@@ -16,6 +18,7 @@ function initialize(): void{
     .catch(error =>{
         console.error(error.status, error.text)
     })
+    renderRestaurantReservations(userId);
 }
 
 function renderTourReservations(data: Reservation[]): void {
@@ -135,4 +138,140 @@ function renderTourReservations(data: Reservation[]): void {
     table.appendChild(tr);
   });
 }
+
+function renderRestaurantReservations(userId): void{
+  restaurantReservationService.getByUser(userId)
+    .then(data => {
+      console.log("data", data)
+
+    const table = document.getElementById("restaurant-table") as HTMLElement;
+    const noDataMessage = document.getElementById("no-data") as HTMLElement;
+
+    table.querySelectorAll("tr.row").forEach(row => row.remove());
+
+    if (data.length === 0) {
+      table.classList.add("hidden");
+      noDataMessage.classList.remove("hidden");
+      return;
+    }
+
+    noDataMessage.classList.add("hidden");
+    table.classList.remove("hidden");
+
+    data.forEach((reservation) => {
+      const tr = document.createElement("tr");
+
+      const nameTd = document.createElement("td");
+      nameTd.textContent = reservation?.restaurant?.name;
+      tr.appendChild(nameTd);
+
+      const createdAtTd = document.createElement("td");
+      createdAtTd.textContent = formatDate(reservation.createdAt);
+      tr.appendChild(createdAtTd)
+
+      const startingDateTd = document.createElement("td");
+      let startDate;
+      if(reservation.mealTime === 'dorucak'){
+        startDate = new Date(reservation.date)
+        startDate.setHours(8)
+      }
+      else if (reservation.mealTime === 'rucak'){
+        startDate = new Date(reservation.date)
+        startDate.setHours(13)
+      }
+      else if (reservation.mealTime === 'vecera'){
+        startDate = new Date(reservation.date)
+        startDate.setHours(18)
+      }
+
+      startingDateTd.textContent = formatDate(startDate);
+      tr.appendChild(startingDateTd)
+
+      const numberOfPeopleTd = document.createElement("td");
+      numberOfPeopleTd.textContent = reservation.numberOfPeople.toString();
+      tr.appendChild(numberOfPeopleTd);
+
+      const deleteTd = document.createElement("td");
+      const deleteBtn = document.createElement("button");
+      deleteBtn.className = "delete";
+      deleteBtn.textContent = "Cancel";
+
+      const hoursDiff = (startDate.getTime() - Date.now()) / (1000 * 60 * 60);
+
+      let cancellationLimit = 4;
+      if (reservation.mealTime === "dorucak") {
+        cancellationLimit = 12;
+      }
+
+      if(hoursDiff < cancellationLimit){
+        deleteBtn.classList.add("uncancelable");
+        deleteBtn.disabled = true;
+
+        deleteBtn.addEventListener("mouseover", () => {
+        document.querySelectorAll(".uncancelable").forEach((el) => {
+          (el as HTMLButtonElement).style.opacity = "100%";
+          });
+        });
+
+        const tooltip = document.createElement("div");
+        tooltip.classList.add("tooltip");
+
+        const tooltipText = document.createElement("span");
+        tooltipText.classList.add("tooltip-text");
+
+       tooltipText.textContent =
+        hoursDiff < 1
+          ? "Rezervacija je već počela."
+          : `Rezervaciju nije moguće otkazati manje od ${cancellationLimit}h pre termina (${reservation.mealTime}).`;
+
+        tooltip.appendChild(tooltipText);
+        tooltip.appendChild(deleteBtn);
+        deleteTd.appendChild(tooltip);
+      }
+      else{
+        deleteBtn.classList.add("cancelable");
+        deleteBtn.disabled = false;
+
+        deleteBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (confirm(`Da li ste sigurni da želite da otkažete ovu rezervaciju?`)) {
+          restaurantReservationService
+            .delete(reservation.id)
+            .then(() => {
+              alert(
+                `Rezervacija za restoran: ${reservation.restaurant.name} je uspešno otkazana.`
+              );
+              window.location.reload();
+            })
+            .catch((err) => {
+              console.error(err.status, err.message);
+            });
+        }
+      });
+
+      deleteTd.appendChild(deleteBtn);
+    }
+      tr.appendChild(deleteTd);
+      tr.classList.add("row");
+      table.appendChild(tr);
+    })
+
+    })
+    .catch(error =>{
+        console.error(error.status, error.text)
+    })
+}
 document.addEventListener('DOMContentLoaded', initialize)
+
+function formatDate(isoString: string): string {
+  const date = new Date(isoString);
+
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+}

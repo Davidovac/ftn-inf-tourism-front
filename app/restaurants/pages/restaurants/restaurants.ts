@@ -286,8 +286,7 @@ form.addEventListener("submit", async (e) => {
     try {
     await reservationService.create(reservationData);
     alert("Rezervacija uspešna!")
-    form.reset();
-    modal.classList.add("hidden");
+    window.location.href = "../../../users/pages/userReservations/userReservations.html"
     
     } 
     catch (error) {
