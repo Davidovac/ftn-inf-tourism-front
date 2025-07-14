@@ -235,7 +235,7 @@ body {
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow: hidden;
+  overflow: auto;
 }
 
 #modalDescription {
@@ -245,7 +245,7 @@ body {
   color: #555;
 }
 
-.gallery, .menu, .reservation-div{
+.gallery, .menu, .reservation-div, .ratings{
   padding: 10px;
   font-weight: bold;
   font-size: 1rem;
@@ -362,4 +362,31 @@ body {
 .error{
   color: red; 
   font-size: 1rem;
+}
+
+.modal-rating{
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 20px;
+
+  .rating-card{
+    margin: 0px;
+    text-align: center;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    width: 200px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
+    p{
+      margin: 5px 0;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
 }

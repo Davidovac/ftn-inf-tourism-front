@@ -1,9 +1,11 @@
 import { Reservation } from "../../../tours/model/reservation.model.js";
 import { ReservationsService } from "../../../tours/service/reservations.service.js";
 import { ReservationService } from "../../../restaurants/services/reservations.service.js";
+import { RestaurantService } from "../../../restaurants/services/restaurant.service.js";
 
 const reservationsService = new ReservationsService()
 const restaurantReservationService = new ReservationService()
+const restaurantService = new RestaurantService()
 document.addEventListener('DOMContentLoaded', initialize)
 
 function initialize(): void{
@@ -250,7 +252,24 @@ function renderRestaurantReservations(userId): void{
       });
 
       deleteTd.appendChild(deleteBtn);
+    }    
+
+    const now = new Date().getTime();
+    const startTime = startDate.getTime();
+    const diffHoursSinceStart = (now - startTime) / (1000 * 60 * 60);
+
+    if (diffHoursSinceStart >= 1 && diffHoursSinceStart <= 72) {
+      const rateBtn = document.createElement("button");
+      rateBtn.className = "rate";
+      rateBtn.textContent = "Rate";
+
+      rateBtn.addEventListener("click", () => {
+        openRatingModal(reservation.restaurantId, userId);
+      });
+
+      deleteTd.appendChild(rateBtn);
     }
+
       tr.appendChild(deleteTd);
       tr.classList.add("row");
       table.appendChild(tr);
@@ -261,6 +280,7 @@ function renderRestaurantReservations(userId): void{
         console.error(error.status, error.text)
     })
 }
+
 document.addEventListener('DOMContentLoaded', initialize)
 
 function formatDate(isoString: string): string {
@@ -274,4 +294,55 @@ function formatDate(isoString: string): string {
   const minutes = String(date.getMinutes()).padStart(2, '0');
 
   return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
+function openRatingModal(restaurantId: number, userId: number): void {
+  const modal = document.getElementById("ratingModal") as HTMLElement;
+  modal.classList.remove("hidden");
+  modal.style.display = "flex";
+
+  const starContainer = document.getElementById("starRating") as HTMLElement;
+  starContainer.innerHTML = "";
+  for (let i = 1; i <= 5; i++) {
+    const starInput = document.createElement("input");
+    starInput.type = "radio";
+    starInput.name = "stars";
+    starInput.value = i.toString();
+    starInput.id = `star-${i}`;
+
+    const label = document.createElement("label");
+    label.htmlFor = `star-${i}`;
+    label.textContent = `${i}⭐`;
+
+    starContainer.appendChild(starInput);
+    starContainer.appendChild(label);
+  }
+
+    document.getElementById("closeModal").addEventListener("click", () => {
+    const modal = document.getElementById("ratingModal") as HTMLElement;
+    modal.classList.add("hidden");
+    modal.style.display = "none";
+  });
+
+  document.getElementById("ratingForm")?.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const rating = Number((document.querySelector('input[name="rating"]:checked') as HTMLInputElement)?.value);
+    const comment = (document.getElementById("comment") as HTMLTextAreaElement).value;
+
+    if (!rating) {
+      alert("Please select a rating.");
+      return;
+    }
+
+    const ratingData = {
+      userId: userId,
+      restaurantId,
+      rating: rating,
+      comment
+    };
+
+    restaurantService.addRating(ratingData, restaurantId)
+
+  });
 }

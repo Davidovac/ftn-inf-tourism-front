@@ -23,6 +23,7 @@ const modalName = document.getElementById("modalName")!;
 const modalDescription = document.getElementById("modalDescription")!;
 const modalImages = document.getElementById("modalImages")!;
 const modalMenu = document.getElementById("modalMenu")!;
+const modalRating = document.getElementById("modalRating");
 
 const reservationService = new ReservationService();
 const restaurantService = new RestaurantService();
@@ -156,6 +157,9 @@ async function loadRestaurants() {
             const p = document.createElement("p");
             p.textContent = r.description;
 
+            const rating = document.createElement("p");
+            rating.textContent = `Ocene: ${r.averageRating}/5⭐`;
+
             const locationInfo = document.createElement("p");
             locationInfo.textContent = `Lokacija: ${r.latitude}, ${r.longitude}`;
             locationInfo.classList.add("location-info");
@@ -195,6 +199,7 @@ async function loadRestaurants() {
                 buttonGroup.appendChild(deleteBtn);
             }
             contentDiv.appendChild(p);
+            contentDiv.appendChild(rating);
             contentDiv.appendChild(locationInfo);
             contentDiv.appendChild(capacityInfo);
             contentDiv.appendChild(buttonGroup);
@@ -213,11 +218,13 @@ loadRestaurants();
 
 closeModalBtn.addEventListener("click", () => {
     modal.classList.add("hidden");
+    form.reset();
 });
 
 window.addEventListener("click", (event) => {
     if (event.target === modal) {
         modal.classList.add("hidden");
+        form.reset();
     }
 });
 
@@ -243,6 +250,18 @@ function showDetails(id) {
         });
     } else {
         modalImages.textContent = "Nema slika enterijera.";
+    }
+    if(restaurant.ratings.length > 0){
+        restaurant.ratings.forEach(element => {
+            modalRating.innerHTML = `
+            <div class="rating-card">
+                <p>${element.user.username}</strong> (${element.rating}⭐)</p>
+                <div>${element.comment}</div>
+            </div>`
+        });
+    }
+    else{
+        modalRating.textContent = "Nema ocena"
     }
     selectedRestaurant = restaurant;
     showMeals(restaurant.meals)
