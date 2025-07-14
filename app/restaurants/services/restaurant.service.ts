@@ -134,8 +134,8 @@ export class RestaurantService {
 
   deleteMeal(restaurantId: number, id: number): Promise<void> {
     return fetch(`${this.apiUrl}/${restaurantId}/meals/${id}`, {
-    method: "DELETE",
-  })
+      method: "DELETE",
+    })
     .then(response => {
     if (!response.ok) {
         return response.text().then(text => { throw new Error(text); });
@@ -145,5 +145,23 @@ export class RestaurantService {
     console.error(`Error deleting meal with id ${id}:`, error.message);
     throw error;
     });
-}
+  }
+
+  addRating(data, restaurantId: number): Promise<void>{
+     return fetch(`${this.apiUrl}/${restaurantId}/ratings`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+    .then(response =>{
+    if (!response.ok) {
+          return response.text().then(text => { throw new Error(text); });
+      }
+    })
+    .catch(error => {
+    console.error(`Error rating restaurant`, error.message);
+    throw error;
+    });
+  }
+
 }
