@@ -34,7 +34,8 @@ export class ToursService {
             element.status,
             element.guide,
             element.guideId,
-            element.keyPoints
+            element.keyPoints,
+            element.ratings
           );
           tours.push(tour);
         }
@@ -76,7 +77,8 @@ export class ToursService {
             element.status,
             element.guide,
             element.guideId,
-            element.keyPoints
+            element.keyPoints,
+            element.ratings
           );
           tours.push(tour);
         }

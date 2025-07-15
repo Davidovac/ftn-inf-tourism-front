@@ -1,4 +1,4 @@
-import { Tour } from "./tour.model"
+import { Tour } from "./tour.model.js"
 
 export class Reservation {
     public id: number

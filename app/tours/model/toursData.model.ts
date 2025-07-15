@@ -1,4 +1,4 @@
-import { Tour } from "./tour.model"
+import { Tour } from "./tour.model.js"
 
 export interface ToursData {
     data: Tour[],
