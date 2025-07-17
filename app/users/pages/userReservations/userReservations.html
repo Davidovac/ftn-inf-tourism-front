@@ -11,9 +11,9 @@
         <ul class="nav-list">
             <li class="nav-item"><a href="../../../index.html">Home</a></li>
             <li class="nav-item" id="restaurants"><a href="/app/restaurants/pages/restaurants/restaurants.html">Restaurants</a></li>
-            <li class="nav-item" id="guide-tours"><a href="../../../tours/pages/preview/tours.html">Tours</a></li>
+            <li class="nav-item" id="guide-tours"><a href="../../../tours/pages/preview/tours.html">My Tours</a></li>
             <li class="nav-item" id="tours-catalog"><a href="../../../tours/pages/toursCatalog/toursCatalog.html">Tours</a></li>
-            <li class="nav-item" id="user-reservations"><a class="nav-active" href="userReservations.html">Reservations</a></li>
+            <li class="nav-item" id="user-reservations" class="nav-active"><a class="nav-active" href="userReservations.html">Reservations</a></li>
             <li class="nav-item" id="login"><a href="../../../users/pages/login/login.html">Login</a></li>
             <li class="nav-item" id="logout"><a href="../../../index.html">Logout</a></li>
         </ul>
@@ -47,7 +47,7 @@
     <div id="ratingModal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalName">Ocenite restoran</h2>
+                <h2 id="modalName"></h2>
                 <span id="closeModal" class="close-button">&times;</span>
             </div>
             <form id="ratingForm">
@@ -56,7 +56,7 @@
 
                 </div>
                 <label for="comment">Comment:</label>
-                <textarea id="comment" rows="4" required></textarea>
+                <textarea id="comment" rows="4"></textarea>
                 <button type="submit">Submit</button>
             </form>
         </div>

@@ -1,4 +1,5 @@
 import { KeyPoint } from "./keyPoint.model.js"
+import { TourRating } from "./tourRating.model.js"
 
 export interface TourFormData {
     id?: number,
@@ -8,5 +9,6 @@ export interface TourFormData {
     maxGuests: number,
     status?: string,
     guideId: number,
-    keyPoints?: KeyPoint[]
+    keyPoints?: KeyPoint[],
+    ratings?: TourRating[]
 }
