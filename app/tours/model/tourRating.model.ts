@@ -3,7 +3,7 @@ import { User } from "../../users/model/user.model.js"
 export class TourRating {
     public id: number
     public userId: number
-    public user: User
+    public user?: User
     public tourId: number
     public rating: number
     public comment?: string

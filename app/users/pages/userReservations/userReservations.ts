@@ -2,7 +2,10 @@ import { Reservation } from "../../../tours/model/reservation.model.js";
 import { ReservationsService } from "../../../tours/service/reservations.service.js";
 import { ReservationService } from "../../../restaurants/services/reservations.service.js";
 import { RestaurantService } from "../../../restaurants/services/restaurant.service.js";
+import { ToursService } from "../../../tours/service/tours.service.js";
+import { TourRatingData } from "../../../tours/model/tourRatingData.model.js";
 
+const toursService = new ToursService()
 const reservationsService = new ReservationsService()
 const restaurantReservationService = new ReservationService()
 const restaurantService = new RestaurantService()
@@ -133,6 +136,22 @@ function renderTourReservations(data: Reservation[]): void {
       deleteBtnCell.appendChild(deleteBtn);
     }
 
+    const now = new Date().getTime();
+    const startDate = new Date(reservation.tour.dateTime)
+    const startTime = startDate.getTime();
+    const diffHoursSinceStart = (now - startTime) / (1000 * 60 * 60);
+
+    if (diffHoursSinceStart >= 3 && diffHoursSinceStart <= 168) {
+      const rateBtn = document.createElement("button");
+      rateBtn.className = "rate";
+      rateBtn.textContent = "Rate";
+
+      rateBtn.addEventListener("click", () => {
+        openRatingModal(reservation.tourId, JSON.parse(localStorage.getItem('userId')), "tour");
+      });
+
+      deleteBtnCell.appendChild(rateBtn);
+    }
     
     tr.appendChild(deleteBtnCell);
 
@@ -264,7 +283,7 @@ function renderRestaurantReservations(userId): void{
       rateBtn.textContent = "Rate";
 
       rateBtn.addEventListener("click", () => {
-        openRatingModal(reservation.restaurantId, userId);
+        openRatingModal(reservation.restaurantId, userId, "restaurant");
       });
 
       deleteTd.appendChild(rateBtn);
@@ -296,10 +315,20 @@ function formatDate(isoString: string): string {
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
-function openRatingModal(restaurantId: number, userId: number): void {
+function openRatingModal(objectId: number, userId: number, ratingObject: string): void {
   const modal = document.getElementById("ratingModal") as HTMLElement;
   modal.classList.remove("hidden");
   modal.style.display = "flex";
+
+  const h2 = document.querySelector('#modalName') as HTMLElement;
+
+  if (ratingObject == 'restaurant') {
+    h2.textContent = 'Ocenite restoran'
+  }
+
+  if (ratingObject == 'tour') {
+    h2.textContent = 'Ocenite turu'
+  }
 
   const starContainer = document.getElementById("starRating") as HTMLElement;
   starContainer.innerHTML = "";
@@ -327,7 +356,7 @@ function openRatingModal(restaurantId: number, userId: number): void {
   document.getElementById("ratingForm")?.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const rating = Number((document.querySelector('input[name="rating"]:checked') as HTMLInputElement)?.value);
+    const rating = Number((document.querySelector('input[name="stars"]:checked') as HTMLInputElement)?.value);
     const comment = (document.getElementById("comment") as HTMLTextAreaElement).value;
 
     if (!rating) {
@@ -335,14 +364,34 @@ function openRatingModal(restaurantId: number, userId: number): void {
       return;
     }
 
-    const ratingData = {
-      userId: userId,
-      restaurantId,
-      rating: rating,
-      comment
-    };
+    if (ratingObject == "restaurant") {
+      const ratingData = {
+        userId: userId,
+        restaurantId: objectId,
+        rating: rating,
+        comment,
+      };
 
-    restaurantService.addRating(ratingData, restaurantId)
+      restaurantService.addRating(ratingData, objectId);
+    }
+
+    if (ratingObject == "tour") {
+      const tourId = objectId;
+      const reqBody: TourRatingData = { userId, tourId, rating, comment };
+      toursService.addRating(reqBody)
+        .then(() => {
+          (document.getElementById("ratingForm") as HTMLFormElement).reset()
+          modal.style.display = "none";
+        })
+        .catch((error) => {
+          console.error(error.status, error.message.message);
+          if (error.status == 409) {
+            alert('Vec ste ocenili ovu turu!');
+            (document.getElementById("ratingForm") as HTMLFormElement).reset()
+            modal.style.display = "none";
+          }
+        });
+    }
 
   });
 }
