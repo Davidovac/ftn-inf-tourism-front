@@ -123,7 +123,7 @@ table {
   z-index: 999999999;
 
   &:hover {
-    color: lighten(white, 20%);
+    color: color.adjust(white,$lightness: 20%);
   }
 }
 

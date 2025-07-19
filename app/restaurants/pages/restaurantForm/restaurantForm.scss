@@ -8,7 +8,7 @@ form {
   width: 320px;
   margin: 30px auto;
   padding: 20px;
-  border: 1px solid lighten($primary-color, 30%);
+  border: 1px solid color.adjust($primary-color,$lightness: 30%);
   border-radius: 8px;
   background-color: #f9f9f9;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -16,7 +16,7 @@ form {
   input,
   textarea {
     padding: 10px 12px;
-    border: 1px solid lighten($primary-color, 40%);
+    border: 1px solid color.adjust($primary-color,$lightness: 40%);
     border-radius: 6px;
     font-size: 14px;
     font-family: inherit;
@@ -57,7 +57,7 @@ form {
     }
 
     &:disabled {
-      background-color: lighten($button-color, 40%);
+      background-color: color.adjust($button-color,$lightness: 40%);
       cursor: not-allowed;
     }
   }
