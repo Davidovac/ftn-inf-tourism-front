@@ -51,7 +51,7 @@ function handleLogout() {
         localStorage.removeItem('guideId')
     }
     setUserLoginState(false);
-    window.location.href = '../users/pages/login/login.html';
+    window.location.href = '/users/pages/login/login.html';
 
 }
 

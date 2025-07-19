@@ -1,0 +1,15 @@
+@use '/styles/global';
+
+body{
+    overflow: hidden;
+}
+
+.restaurant-chart{
+    overflow: hidden;
+    width: 600px;
+    height: 400px;
+    margin: 20px;
+}
+.header{
+    margin: 20px;
+}

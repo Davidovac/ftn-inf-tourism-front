@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tour/Restaurant</title>
-    <link rel="stylesheet" href="./index.scss">
+    <title>Drustvene mreze</title>
+    <link rel="stylesheet" href="./restaurantStats.scss">
 </head>
 <body>
     <nav class="navbar">
         <ul class="nav-list">
-            <li class="nav-item"><a class="nav-active" href="/index.html">Home</a></li>
-            <li class="nav-item" id="restaurants"><a href="/restaurants/pages/restaurants/restaurants.html">Restaurants</a></li>
+            <li class="nav-item"><a href="/index.html">Home</a></li>
+            <li class="nav-item" id="restaurants"><a href="/restaurants//restaurants.html">Restaurants</a></li>
             <li class="nav-item" id="guide-tours"><a href="/tours/pages/preview/tours.html">Tours</a></li>
             <li class="nav-item" id="tours-catalog"><a href="/tours/pages/toursCatalog/toursCatalog.html">Tours</a></li>
             <li class="nav-item" id="user-reservations"><a href="/users/pages/userReservations/userReservations.html">Reservations</a></li>
@@ -19,14 +19,17 @@
         </ul>
     </nav>
 
-    <div class="chart-div">
-        <canvas id="total-chart"></canvas>
+    <div class="header">
+        <h1 id="header"></h1>
+    </div>
+    <div class="restaurant-chart">
+        <canvas id="percent-chart"></canvas>
+    </div>
+    <div class="restaurant-chart">
+        <canvas id="reservation-chart"></canvas>
     </div>
 
 
-
-
-    <script type="module" src="./index.ts"></script>
-    <script type="module" src="./authentication/auth.ts"></script>
+    <script type="module" src="/authentication/auth.ts"></script>
+    <script type="module" src="./restaurantStats.ts"></script>
 </body>
-</html>

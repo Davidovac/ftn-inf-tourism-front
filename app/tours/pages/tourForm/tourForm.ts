@@ -10,7 +10,7 @@ const body = document.querySelector('body') as HTMLElement
 
 function initializeForm(): void{
     if (!localStorage.getItem('guideId')){
-        window.location.href = "../../../index.html"
+        window.location.href = "/index.html"
     }
 
     localStorage.removeItem("tourKeyPoints");
@@ -155,7 +155,7 @@ function submit(): void{
         body.style.backgroundColor = "#ffffff"
       })
       .then(() =>{
-        window.location.href = "../preview/tours.html";
+        window.location.href = '/tours/pages/preview/tours.html';
       })
 }
 

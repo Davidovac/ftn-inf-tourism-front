@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../../dist/users/pages/userReservations/userReservations.css">
+    <link rel="stylesheet" href="./userReservations.scss">
     <title>User Reservations</title>
 </head>
 <body>
     <nav class="navbar">
         <ul class="nav-list">
-            <li class="nav-item"><a href="../../../index.html">Home</a></li>
-            <li class="nav-item" id="restaurants"><a href="/app/restaurants/pages/restaurants/restaurants.html">Restaurants</a></li>
-            <li class="nav-item" id="guide-tours"><a href="../../../tours/pages/preview/tours.html">My Tours</a></li>
-            <li class="nav-item" id="tours-catalog"><a href="../../../tours/pages/toursCatalog/toursCatalog.html">Tours</a></li>
-            <li class="nav-item" id="user-reservations" class="nav-active"><a class="nav-active" href="userReservations.html">Reservations</a></li>
-            <li class="nav-item" id="login"><a href="../../../users/pages/login/login.html">Login</a></li>
-            <li class="nav-item" id="logout"><a href="../../../index.html">Logout</a></li>
+            <li class="nav-item"><a href="/index.html">Home</a></li>
+            <li class="nav-item" id="restaurants"><a href="/restaurants/pages/restaurants/restaurants.html">Restaurants</a></li>
+            <li class="nav-item" id="guide-tours"><a href="/tours/pages/preview/tours.html">Tours</a></li>
+            <li class="nav-item" id="tours-catalog"><a href="/tours/pages/toursCatalog/toursCatalog.html">Tours</a></li>
+            <li class="nav-item" id="user-reservations"><a class="nav-active" href="userReservations.html">Reservations</a></li>
+            <li class="nav-item" id="login"><a href="/users/pages/login/login.html">Login</a></li>
+            <li class="nav-item" id="logout"><a href="/index.html">Logout</a></li>
         </ul>
     </nav>
     <div>
@@ -62,7 +62,7 @@
         </div>
     </div>
     
-    <script type="module" src="../../../../dist/authentication/auth.js"></script>
-    <script type="module" src="../../../../dist/users/pages/userReservations/userReservations.js"></script>
+    <script type="module" src="/authentication/auth.ts"></script>
+    <script type="module" src="./userReservations.ts"></script>
 </body>
 </html>

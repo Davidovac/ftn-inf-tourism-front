@@ -40,7 +40,7 @@ let selectedRestaurant;
 
 
 addRestaurantBtn.addEventListener('click', () => {
-    window.location.href = '../restaurantForm/restaurantForm.html';
+    window.location.href = '/restaurants/pages/restaurantForm/restaurantForm.html';
 });
 
 buttonOne.addEventListener('click', () => {
@@ -180,7 +180,7 @@ async function loadRestaurants() {
             editBtn.textContent = "Izmeni";
             editBtn.addEventListener("click", () => {
                 event.stopPropagation();
-                window.location.href = `../restaurantForm/restaurantForm.html?id=${r.id}`;
+                window.location.href = `/restaurants/pages/restaurantForm/restaurantForm.html?id=${r.id}`;
             });
 
             const deleteBtn = document.createElement("button");
@@ -305,7 +305,7 @@ form.addEventListener("submit", async (e) => {
     try {
     await reservationService.create(reservationData);
     alert("Rezervacija uspešna!")
-    window.location.href = "../../../users/pages/userReservations/userReservations.html"
+    window.location.href = "/users/pages/userReservations/userReservations.html"
     
     } 
     catch (error) {
