@@ -6,14 +6,14 @@ const toursService = new ToursService()
 
 function initialize(): void{
   if (localStorage.role != 'vodic'){
-    window.location.href = "../../../users/pages/login/login.html"
+    window.location.href = "/users/pages/login/login.html"
   }
     const params = new URLSearchParams(window.location.search);
     const guideId = params.get('id')
     const toFormBtn = document.querySelector('#toForm')
     toFormBtn.textContent = 'Dodaj turu'
     toFormBtn.addEventListener("click", function () {
-        window.location.href = "../tourForm/tourForm.html?page=1";
+        window.location.href = '/tours/pages/tourForm/tourForm.html?page=1';
     })
     toursService.getToursByGuide(guideId)
     .then(data => {
@@ -167,7 +167,7 @@ function renderData(data: Tour[]): void {
 
       editBtn.addEventListener("click", function () {
         window.location.href =
-          "../tourForm/tourForm.html?id=" + tour.id + "&page=1";
+          "/tours/pages/tourForm/tourForm.html?id=" + tour.id + "&page=1";
       });
       editBtn.style.backgroundColor = '#ffe365'
       editBtn.style.color = 'black'

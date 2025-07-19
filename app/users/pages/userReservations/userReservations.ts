@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', initialize)
 
 function initialize(): void{
   if (localStorage.role != 'turista'){
-    window.location.href = "../pages/login/login.html"
+    window.location.href = "/users/pages/login/login.html"
   }
     const userId = JSON.parse(localStorage.getItem('userId'))
     reservationsService.getByUser(userId)
@@ -144,8 +144,6 @@ function renderTourReservations(data: Reservation[]): void {
 function renderRestaurantReservations(userId): void{
   restaurantReservationService.getByUser(userId)
     .then(data => {
-      console.log("data", data)
-
     const table = document.getElementById("restaurant-table") as HTMLElement;
     const noDataMessage = document.getElementById("no-data") as HTMLElement;
 

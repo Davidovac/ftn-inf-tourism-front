@@ -84,7 +84,7 @@ publishBtn.addEventListener("click", async () => {
 
   try {
     await restaurantService.update(id, restaurantData);
-    window.location.href = "../restaurants/restaurants.html";
+    window.location.href = '/restaurants/pages/restaurants/restaurants.html';
   } catch (error) {
     console.error("Greška:", (error as Error).message);
     alert("Došlo je do greške pri objavljivanju restorana");
@@ -115,7 +115,7 @@ form.addEventListener("submit", async (e) => {
     } else {
       await restaurantService.create(restaurant);
     }
-    window.location.href = "../restaurants/restaurants.html";
+    window.location.href = '/restaurants/pages/restaurants/restaurants.html';
   } catch (error) {
     console.error("Greška:", (error as Error).message);
     alert("Došlo je do greške pri čuvanju restorana");

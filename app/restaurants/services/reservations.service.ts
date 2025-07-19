@@ -1,4 +1,5 @@
 import { Reservation } from "../models/reservation.modle";
+import { RestaurantSummaryStats } from "../models/restaurant-stats.model";
 
 export class ReservationService {
   private apiUrl: string;
@@ -81,4 +82,42 @@ export class ReservationService {
         throw error;
       });
   }
+
+  getAllStats(ownerId: number): Promise<Reservation[]> {
+    const url = `${this.apiUrl}/stats/all?ownerId=${ownerId}`;
+
+    return fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(text);
+          });
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error(`Greška pri pribavljanju statistika`, error.message);
+        throw error;
+      });
+
+  }
+
+    getRestaurantSummaryStats(restaurantId: number, ownerId: number): Promise<RestaurantSummaryStats> {
+    const url = `${this.apiUrl}/${restaurantId}/stats?ownerId=${ownerId}`;
+
+    return fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(text);
+          });
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error('Greška pri dohvatanju statistike za restoran:', error.message);
+        throw error;
+      });
+  }
+
 }

@@ -1,1 +1,7 @@
-@import './styles/global';
+@use './styles/global';
+
+.chart-div{
+    overflow: hidden;
+    width: 600px;
+    height: 400px;
+}

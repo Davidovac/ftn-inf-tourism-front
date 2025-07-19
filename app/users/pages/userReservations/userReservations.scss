@@ -1,5 +1,6 @@
 @use '../../../styles/global.scss' as *;
 @use '../../../tours/pages/preview/tours.scss';
+@use "sass:color";
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -59,7 +60,7 @@ body {
   flex-shrink: 0;
   font-size: 1rem;
   font-weight: bold;
-  border-bottom: 1px solid darken($primary-color, 10%);
+  border-bottom: 1px solid color.adjust($primary-color,$lightness: -10%);
 }
 
 .close-button {

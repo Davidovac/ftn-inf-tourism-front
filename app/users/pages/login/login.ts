@@ -77,7 +77,7 @@ function handleLogin(event: Event) {
               }
             }
             setUserLoginState(true);
-            window.location.href = "../../../../app/index.html"
+            window.location.href = "/index.html"
         })
         .catch((error) => {
             console.error('Login failed', error.message);

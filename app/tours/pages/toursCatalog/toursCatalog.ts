@@ -273,7 +273,7 @@ function expandRow(row: TourRowElement, tour: Tour) {
     }
 
     const seeMore = document.createElement('a')
-    seeMore.href = '../tourOverview/tourOverview.html?id=' + tour.id
+    seeMore.href = '/tourOverview/tourOverview.html?id=' + tour.id;
     seeMore.textContent = 'Saznaj vise'
     seeMore.id = 'see-more'
 
