@@ -1,5 +1,6 @@
 import { Tour } from "../model/tour.model.js"
 import { TourFormData } from "../model/tourFormData.model.js";
+import { TourRatingData } from "../model/tourRatingData.model.js";
 import { ToursData } from "../model/toursData.model.js";
 
 export class ToursService {
@@ -34,7 +35,8 @@ export class ToursService {
             element.status,
             element.guide,
             element.guideId,
-            element.keyPoints
+            element.keyPoints,
+            element.ratings
           );
           tours.push(tour);
         }
@@ -76,7 +78,8 @@ export class ToursService {
             element.status,
             element.guide,
             element.guideId,
-            element.keyPoints
+            element.keyPoints,
+            element.ratings
           );
           tours.push(tour);
         }
@@ -170,6 +173,29 @@ export class ToursService {
       })
       .catch((error) => {
         console.error("Error: " + error.status);
+        throw error;
+      });
+  }
+
+  addRating(reqBody: TourRatingData): Promise <string> {
+    const method = "POST";
+    const url = this.apiUrl + "/" + reqBody.tourId + "/ratings";
+
+    return fetch(url, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reqBody),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then(errorMessage => { throw {message: new Error(errorMessage), status: response.status} });
+          }
+        return response.text();
+      })
+      .catch((error) => {
+        console.error("Error: " + error.status, error.message.message);
         throw error;
       });
   }

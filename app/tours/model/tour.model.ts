@@ -1,5 +1,6 @@
 import { User } from "../../users/model/user.model.js"
 import { KeyPoint } from "./keyPoint.model.js"
+import { TourRating } from "./tourRating.model.js"
 
 export class Tour {
     public id?: number
@@ -11,8 +12,9 @@ export class Tour {
     public guide?: User
     public guideId: number
     public keyPoints: KeyPoint[]
+    public ratings: TourRating[]
 
-    constructor(id, name, description, dateTime, maxGuests, status, guide, guideId, keyPoints){
+    constructor(id, name, description, dateTime, maxGuests, status, guide, guideId, keyPoints, ratings){
         this.id = id
         this.name = name
         this.description = description
@@ -22,5 +24,6 @@ export class Tour {
         this.guide = guide
         this.guideId = guideId
         this.keyPoints = keyPoints
+        this.ratings = ratings
     }
 }

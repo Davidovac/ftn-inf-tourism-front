@@ -195,10 +195,88 @@ function renderData(data: Tour[]): void {
       deleteBtnCell.appendChild(deleteBtn);
       tr.appendChild(deleteBtnCell);
 
+      if (tour.ratings && tour.ratings.length > 0) {
+        tr.style.cursor = "pointer";
+        tr.addEventListener('click', (e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          renderReviewes(tour)
+        })
+      }
+
       tr.classList.add('row')
       table.appendChild(tr);
     });
   });
+}
+
+function renderReviewes(tour: Tour) {
+  const fakeParent = document.createElement('div')
+  fakeParent.id = 'fake-parent'
+  const parentContainer = document.createElement('div')
+  parentContainer.id = 'review-container';
+  const reviewSegment = document.createElement('div')
+  reviewSegment.id = 'review-block'
+  const header = document.createElement('div')
+  header.id = 'header-block';
+  const tourH2 = document.createElement('h2')
+  tourH2.textContent = "Ocene za: " + tour.name;
+  const closeSpan = document.createElement('span')
+  closeSpan.id = 'close-button';
+  closeSpan.innerHTML = "&times;"
+
+  closeSpan.addEventListener("click", () => {
+    const body = document.querySelector('body')
+    const fakeParent = document.getElementById("fake-parent") as HTMLElement;
+    body.removeChild(fakeParent)
+  })
+
+  header.appendChild(tourH2)
+  header.appendChild(closeSpan)
+
+  parentContainer.appendChild(header)
+  parentContainer.appendChild(reviewSegment)
+
+  if (tour.ratings && tour.ratings.length > 0) {
+    for (const element of tour.ratings) {
+
+      const ratingBox = document.createElement('div');
+      ratingBox.classList.add('rating-box')
+      const ratingHeaderDiv = document.createElement('div')
+      ratingHeaderDiv.id = 'rating-header'
+      const ratingText = document.createElement('p');
+      ratingText.textContent = "Ocenjeno sa: " + element.rating + "⭐";
+      ratingText.style.fontWeight = 'bolder';
+      const author = document.createElement('p')
+      author.id = 'rating-author';
+      author.textContent = "by: " + element.user.username;
+      const commentLabel = document.createElement('p');
+      commentLabel.style.fontWeight = 'bolder';
+      commentLabel.classList.add('label');
+      commentLabel.textContent = "Komentar korisnika:"
+      const commentText = document.createElement('p');
+      commentText.textContent = element.comment;
+      commentText.id = 'comment';
+
+      ratingHeaderDiv.appendChild(ratingText)
+      ratingHeaderDiv.appendChild(author)
+      ratingBox.appendChild(ratingHeaderDiv)
+      ratingBox.appendChild(commentLabel)
+      ratingBox.appendChild(commentText)
+      reviewSegment.appendChild(ratingBox)
+
+      if (element.rating == 2 || element.rating == 3) {
+        ratingBox.style.backgroundColor = "orange"
+      }
+
+      if (element.rating == 1) {
+        ratingBox.style.backgroundColor = "red"
+      }
+    }
+  }
+  fakeParent.appendChild(parentContainer)
+  const body = document.querySelector('body')
+  body.appendChild(fakeParent)
 }
 
 document.addEventListener('DOMContentLoaded', initialize)

@@ -163,7 +163,6 @@ span {
           border-radius: 12px;
           margin: 2vh;
           width: 24vh;
-          background-color: rgb(130, 168, 204);
           box-shadow: 0 7px 12px rgba(37, 37, 37, 0.521);
         }
       }
@@ -189,5 +188,16 @@ span {
         }
       }
     }
+  }
+}
+
+.rating-box {
+  margin: 2vh;
+  margin-bottom: 0;
+  padding: 0.1rem 2vh;
+  background-color: rgb(137, 181, 231);
+  border-radius: 25px;
+  .label {
+    color: #08396e;
   }
 }

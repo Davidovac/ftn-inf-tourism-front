@@ -28,6 +28,7 @@ function getTour(): void {
     .then((data: Tour) => {
       renderData(data);
       thisTour = data
+      renderReviewes()
     })
     .catch((error) => {
       console.error(error.status, error.text);
@@ -79,6 +80,7 @@ function buildKeyPointBlock(keyPoint: KeyPoint, kpBlock: HTMLElement): void {
     leftColumn.classList.add('left-column-block')
     const img = document.createElement('img') as HTMLImageElement
     img.src = keyPoint.imageUrl;
+    img.style.backgroundColor = "grey";
 
     leftColumn.appendChild(img)
     kpBlock.appendChild(leftColumn)
@@ -101,6 +103,37 @@ function buildKeyPointBlock(keyPoint: KeyPoint, kpBlock: HTMLElement): void {
     rightColumn.appendChild(desc)
     rightColumn.appendChild(mapDiv)
     kpBlock.appendChild(rightColumn)
+}
+
+function renderReviewes() {
+  const parentContainer = document.querySelector('#tour-and-reserve-block')
+
+  if (thisTour.ratings && thisTour.ratings.length > 0) {
+    for (let i = 0; i < thisTour.ratings.length; i++) {
+      const element = thisTour.ratings[i];
+      if (i == 3) {
+        break;
+      }
+
+      const ratingBox = document.createElement('div');
+      ratingBox.classList.add('rating-box')
+      const ratingText = document.createElement('p');
+      ratingText.textContent = "Ocenjeno sa: " + element.rating + "⭐";
+      ratingText.style.fontWeight = 'bolder';
+      const commentLabel = document.createElement('p');
+      commentLabel.style.fontWeight = 'bolder';
+      commentLabel.classList.add('label');
+      commentLabel.textContent = "Komentar korisnika:"
+      const commentText = document.createElement('p');
+      commentText.textContent = element.comment;
+      commentText.style.fontStyle = "italic";
+
+      ratingBox.appendChild(ratingText)
+      ratingBox.appendChild(commentLabel)
+      ratingBox.appendChild(commentText)
+      parentContainer.appendChild(ratingBox)
+    }
+  } 
 }
 
 function submit(event) {
