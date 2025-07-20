@@ -3,6 +3,6 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "dist",
-    "moduleResolution": "node"
+    "moduleResolution": "bundler"
   }
 }

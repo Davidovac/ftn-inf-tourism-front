@@ -142,7 +142,7 @@ function buildRow(row, tour: Tour) {
     dateTime.textContent = formattedDate;
     maxBrLabel.textContent = 'Max. broj mesta:';
     maxBr.textContent = tour.maxGuests.toString();
-    kpListLabel.textContent = 'Kljucne tacake:';
+    kpListLabel.textContent = 'Kljucne tacke:';
     kpList.textContent = tour.keyPoints.map((keyPoint: KeyPoint) => keyPoint.name).join(", ");
     kpList.id = 'keyPoints'
 
@@ -273,7 +273,7 @@ function expandRow(row: TourRowElement, tour: Tour) {
     }
 
     const seeMore = document.createElement('a')
-    seeMore.href = '/tourOverview/tourOverview.html?id=' + tour.id;
+    seeMore.href = '../tourOverview/tourOverview.html?id=' + tour.id;
     seeMore.textContent = 'Saznaj vise'
     seeMore.id = 'see-more'
 

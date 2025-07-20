@@ -57,7 +57,7 @@ function renderTourInfo(tour: Tour): void {
     name.textContent = tour.name
 
     const dateTimeLabel = document.querySelector('#dateTimeLabel')
-    dateTimeLabel.textContent = 'Datum i vreme polazka:';
+    dateTimeLabel.textContent = 'Datum i vreme polaska:';
     const dateTime = document.querySelector('#dateTime')
     const date = new Date(tour.dateTime);
     let formattedDate = date.toLocaleString();
@@ -151,6 +151,11 @@ function submit(event) {
 
   if (guestsCount > thisTour.maxGuests) {
     alert('Broj mesta koji ste upisali premasuje kapacitet. Unesite manji broj od maksimalnog')
+    return
+  }
+
+  if (guestsCount < 1) {
+    alert('Broj mesta rezervacije mora biti pozitivan');
     return
   }
 

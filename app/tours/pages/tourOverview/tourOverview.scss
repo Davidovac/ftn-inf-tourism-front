@@ -124,6 +124,7 @@ span {
       box-shadow: 0 3px 8px rgba(27, 43, 56, 0.123);
       border-radius: 26px;
       background-color: rgb(187, 207, 226);
+      padding-bottom: 2vh;
       #reserve-caution {
         margin-top: 3vh;
         margin-left: 2vh;
@@ -133,6 +134,9 @@ span {
       #guest-count-input {
         margin: 2vh 0;
         width: 60%;
+      }
+      #guestsCountError {
+        margin: 0 1vh;
       }
       #reserve-btn {
         margin: 2vh 0;
