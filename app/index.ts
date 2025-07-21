@@ -4,6 +4,7 @@ const guideToursLink = document.querySelector('#guide-tours') as HTMLElement;
 const restaurantsLink = document.querySelector('#restaurants') as HTMLElement;
 const toursCatalogLink = document.querySelector('#tours-catalog') as HTMLElement;
 const userReservationsLink = document.querySelector('#user-reservations') as HTMLElement;
+const restaurantsMap = document.querySelector('#restaurants-map') as HTMLElement;
 const totalChart = document.getElementById('total-chart') as HTMLCanvasElement;
 
 import { ReservationService } from "../dist/restaurants/services/reservations.service.js";
@@ -20,6 +21,7 @@ function setUserLoginState(isLoggedIn: boolean) {
         restaurantsLink.style.display = 'none';
         toursCatalogLink.style.display = 'none';
         userReservationsLink.style.display = 'none';
+        restaurantsMap.style.display = 'none';
         
         if (role === 'vlasnik') {
             restaurantsLink.style.display = 'block';
@@ -33,6 +35,7 @@ function setUserLoginState(isLoggedIn: boolean) {
             toursCatalogLink.style.display = 'block';
             userReservationsLink.style.display = 'block';
             restaurantsLink.style.display = 'block';
+            restaurantsMap.style.display = 'block';
         }
 
         loginLink.style.display = 'none';
