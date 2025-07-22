@@ -1,0 +1,22 @@
+@use "../../../styles/global.scss" as *;
+
+h2 {
+    text-align: center;
+    color: rgb(29, 62, 92);
+}
+
+#main-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.chart-container {
+    overflow: hidden;
+    margin: 5vh 10vh;
+    canvas {
+        height: fit-content;
+        width: 34vw;
+    }
+}

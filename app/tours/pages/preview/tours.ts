@@ -8,8 +8,7 @@ function initialize(): void{
   if (localStorage.role != 'vodic'){
     window.location.href = "/users/pages/login/login.html"
   }
-    const params = new URLSearchParams(window.location.search);
-    const guideId = params.get('id')
+    const guideId = JSON.parse(localStorage.getItem('guideId'))
     const toFormBtn = document.querySelector('#toForm')
     toFormBtn.textContent = 'Dodaj turu'
     toFormBtn.addEventListener("click", function () {
@@ -270,7 +269,7 @@ function renderReviewes(tour: Tour) {
       }
 
       if (element.rating == 1) {
-        ratingBox.style.backgroundColor = "red"
+        ratingBox.style.backgroundColor = "#df4365ff"
       }
     }
   }

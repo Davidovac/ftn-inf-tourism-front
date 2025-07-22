@@ -3,40 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./tours.scss">
-    <title>My Tours</title>
+    <link rel="stylesheet" href="./toursStats.scss">
+    <title>My Stats</title>
 </head>
 <body>
-    <nav class="navbar">
+     <nav class="navbar">
         <ul class="nav-list">
             <li class="nav-item"><a href="/index.html">Home</a></li>
             <li class="nav-item" id="restaurants"><a href="/restaurants/pages/restaurants/restaurants.html">Restaurants</a></li>
-            <li class="nav-item" id="guide-tours"><a class="nav-active" href="./tours.html">My Tours</a></li>
-            <li class="nav-item" id="guide-stats"><a href="../toursStats/toursStats.html">My Stats</a></li>
+            <li class="nav-item" id="guide-tours"><a href="../preview/tours.html">My Tours</a></li>
+            <li class="nav-item" id="guide-stats"><a class="nav-active" href="./toursStats.html">My Stats</a></li>
             <li class="nav-item" id="tours-catalog"><a href="../toursCatalog/toursCatalog.html">Tours</a></li>
             <li class="nav-item" id="user-reservations"><a href="/users/pages/userReservations/userReservations.html">Reservations</a></li>
             <li class="nav-item" id="login"><a href="/users/pages/login/login.html">Login</a></li>
             <li class="nav-item" id="logout"><a href="/app/index.html">Logout</a></li>
         </ul>
     </nav>
-    <div>
-        <p id="no-data-message" class="hidden">No data!</p>
-        <table class="hidden">
-            <thead>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Starting Date and Time</th>
-                <th>Max Guests</th>
-                <th>Status</th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </thead>
-        </table>
-        <button id="toForm"></button>
+    <h2 id="header-text"></h2>
+    <div id="main-container">
+        <div class="chart-container"><canvas id="most-reserved"></canvas></div>
+        <div class="chart-container"><canvas id="least-reserved"></canvas></div>
+        <br>
+        <div class="chart-container"><canvas id="most-filled"></canvas></div>
+        <div class="chart-container"><canvas id="least-filled"></canvas></div>
     </div>
-
     <script type="module" src="/authentication/auth.ts"></script>
-    <script type="module" src="./tours.ts"></script>
+    <script type="module" src="./toursStats.ts"></script>
 </body>
 </html>
