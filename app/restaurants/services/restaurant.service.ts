@@ -164,4 +164,18 @@ export class RestaurantService {
     });
   }
 
+  getAllMapRestaurants(): Promise<Restaurant[]> {
+    return fetch(`${this.apiUrl}/all`)
+      .then(response => {
+        if (!response.ok) {
+          return response.text().then(text => { throw new Error(text); });
+        }
+        return response.json();
+      })
+      .catch(error => {
+        console.error("Error fetching all restaurants:", error.message);
+        throw error;
+      });
+  }
+
 }

@@ -6,6 +6,8 @@ export interface Restaurant {
   description: string;
   capacity: number;
   imageUrl: string;
+  imageUrls?: string[];
+  averageRating?: number;
   latitude: number;
   longitude: number;
   status?: string;

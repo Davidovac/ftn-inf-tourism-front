@@ -1,0 +1,10 @@
+@use '/styles/global';
+@use "sass:color";
+
+body{
+    overflow: hidden;
+}
+#map{
+    height: 100%;
+    width: 100%;
+}
