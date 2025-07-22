@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tour/Restaurant</title>
-    <link rel="stylesheet" href="./index.scss">
+    <title>Drustvene mreze</title>
+    <link rel="stylesheet" href="./restaurant-map.component.scss">
 </head>
 <body>
     <nav class="navbar">
         <ul class="nav-list">
-            <li class="nav-item"><a class="nav-active" href="/index.html">Home</a></li>
+            <li class="nav-item"><a href="/index.html">Home</a></li>
             <li class="nav-item" id="restaurants"><a href="/restaurants/pages/restaurants/restaurants.html">Restaurants</a></li>
-            <li class="nav-item" id="restaurants-map"><a href="/restaurants/pages/restaurant-map/restaurant-map.component.html">Map</a></li>
+            <li class="nav-item" id="restaurants-map"><a class="nav-active" href="/restaurants/pages/restaurant-map/restaurant-map.component.html">Map</a></li>
             <li class="nav-item" id="guide-tours"><a href="/tours/pages/preview/tours.html">My Tours</a></li>
             <li class="nav-item" id="tours-catalog"><a href="/tours/pages/toursCatalog/toursCatalog.html">Tours</a></li>
             <li class="nav-item" id="user-reservations"><a href="/users/pages/userReservations/userReservations.html">Reservations</a></li>
@@ -20,14 +20,10 @@
         </ul>
     </nav>
 
-    <div class="chart-div">
-        <canvas id="total-chart"></canvas>
-    </div>
+    <div id="map"></div>
 
 
 
-
-    <script type="module" src="./index.ts"></script>
-    <script type="module" src="./authentication/auth.ts"></script>
+    <script type="module" src="/authentication/auth.ts"></script>
+    <script type="module" src="./restaurant-map.component.ts"></script>
 </body>
-</html>
