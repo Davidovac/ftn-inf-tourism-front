@@ -3,6 +3,9 @@ import { KeyPoint } from "../../model/keyPoint.model.js";
 import { ToursService } from "../../service/tours.service.js";
 import { ReservationFormData } from "../../model/reservationFormData.model.js";
 import { ReservationsService } from "../../service/reservations.service.js";
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
 
 const body = document.querySelector('body') as HTMLElement
 let thisTour: Tour = null
@@ -41,6 +44,8 @@ function renderData(tour: Tour): void {
     }
     renderTourInfo(tour)
     const kpBlocks = document.querySelectorAll('.single-kp-block')
+    const map = L.map("map")
+    const markers = []
     for (let i = 0; i < kpBlocks.length; i++) {
         const block = kpBlocks[i] as HTMLElement
         const keyPoint = tour.keyPoints[i];
@@ -48,8 +53,26 @@ function renderData(tour: Tour): void {
             block.style.display = 'none'
             continue
         }
+        if (i == 0) {
+          map.setView([keyPoint.latitude, keyPoint.longitude], 13);
+        }
+        markers.push({lat: keyPoint.latitude, lng: keyPoint.longitude, popup: keyPoint.name})
         buildKeyPointBlock(keyPoint, block as HTMLElement);
     }
+    const latLngs = markers.map(m => [m.lat, m.lng]);
+    L.polyline(latLngs, {
+      color: 'blue',
+      weight: 4,
+      opacity: 0.7,
+      smoothFactor: 1
+    }).addTo(map);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+    }).addTo(map);
+    markers.forEach(({ lat, lng, popup }) => {
+      L.marker([lat, lng]).addTo(map).bindPopup(popup);
+    });
 }
 
 function renderTourInfo(tour: Tour): void {
