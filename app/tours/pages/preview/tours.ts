@@ -16,7 +16,7 @@ function initialize(): void{
     })
     toursService.getToursByGuide(guideId)
     .then(data => {
-        renderData(data.data)
+        renderData(data)
     })
     .catch(error =>{
         console.error(error.status, error.text)
@@ -74,9 +74,14 @@ function renderData(data: Tour[]): void {
       }
 
       const dateTime = document.createElement("td");
-      const date = new Date(tour.dateTime);
-      const formattedDate = date.toLocaleString();
-      dateTime.textContent = formattedDate;
+      if (tour.dateTime == null){
+        dateTime.textContent = ""
+      }
+      else {
+        const date = new Date(tour.dateTime);
+        const formattedDate = date.toLocaleString();
+        dateTime.textContent = formattedDate;
+      }
       tr.appendChild(dateTime);
 
       const maxGuests = document.createElement("td");
@@ -91,6 +96,44 @@ function renderData(data: Tour[]): void {
       tr.appendChild(editBtnCell);
       const editBtn = document.createElement("button");
       editBtn.textContent = "Edit";
+      editBtn.addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+        window.location.href =
+          "/tours/pages/tourForm/tourForm.html?id=" + tour.id + "&page=1";
+      });
+      editBtn.style.backgroundColor = '#ffe365'
+      editBtn.style.color = 'black'
+      editBtnCell.appendChild(editBtn);
+
+
+      const cloneBtnCell = document.createElement("td");
+      tr.appendChild(cloneBtnCell);
+      const cloneBtn = document.createElement("button");
+      cloneBtn.textContent = "Clone";
+      cloneBtn.addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+        tour.status = "u pripremi";
+            const name = "";
+            const description = tour.description;
+            const dateTime = null;
+            const maxGuests = tour.maxGuests;
+            const status = tour.status;
+            const guideId = tour.guideId;
+            const keyPoints = tour.keyPoints;
+            const reqBody: TourFormData = {name, description, dateTime, maxGuests, status, guideId, keyPoints};
+            toursService.addOrUpdate(reqBody)
+              .then((cloned) => {
+                window.location.href = "/tours/pages/tourForm/tourForm.html?id=" + cloned.id + "&page=1";
+              })
+              .catch((error) => {
+                console.error(error.status, error.message);
+              });
+      });
+      cloneBtn.style.backgroundColor = '#b4f56aff'
+      cloneBtn.style.color = 'black'
+      cloneBtnCell.appendChild(cloneBtn);
 
       const publishBtnCell = document.createElement("td");
       tr.appendChild(publishBtnCell);
@@ -105,7 +148,9 @@ function renderData(data: Tour[]): void {
           publishBtn.style.backgroundColor = "#9c9c9c";
           publishBtn.style.color = "white";
           publishBtn.style.cursor = "default";
-          publishBtn.addEventListener("mouseover", () => {
+          publishBtn.addEventListener("mouseover", (e) => {
+            e.preventDefault()
+            e.stopPropagation()
             const publishedBtns = document.querySelectorAll(".unpublishable");
             for (const element of publishedBtns) {
               (element as HTMLButtonElement).style.opacity = "100%";
@@ -125,7 +170,9 @@ function renderData(data: Tour[]): void {
           publishBtn.classList.add("publishable");
           publishBtn.disabled = false;
           publishBtn.style.backgroundColor = "#155ce0";
-          publishBtn.addEventListener("click", () => {
+          publishBtn.addEventListener("click", (e) => {
+            e.preventDefault()
+            e.stopPropagation()
             tour.status = "objavljeno";
             const id = tour.id;
             const name = tour.name;
@@ -153,7 +200,9 @@ function renderData(data: Tour[]): void {
         publishBtn.style.backgroundColor = "white";
         publishBtn.style.color = "grey";
         publishBtn.style.cursor = "default";
-        publishBtn.addEventListener("mouseover", () => {
+        publishBtn.addEventListener("mouseover", (e) => {
+          e.preventDefault()
+          e.stopPropagation()
           const publishedBtns = document.querySelectorAll(".published");
           for (const element of publishedBtns) {
             (element as HTMLButtonElement).style.opacity = "100%";
@@ -161,23 +210,16 @@ function renderData(data: Tour[]): void {
         });
         publishBtnCell.appendChild(publishBtn);
       }
-
       tr.appendChild(publishBtnCell);
-
-      editBtn.addEventListener("click", function () {
-        window.location.href =
-          "/tours/pages/tourForm/tourForm.html?id=" + tour.id + "&page=1";
-      });
-      editBtn.style.backgroundColor = '#ffe365'
-      editBtn.style.color = 'black'
-      editBtnCell.appendChild(editBtn);
 
       const deleteBtnCell = document.createElement("td");
       const deleteBtn = document.createElement("button");
       deleteBtn.className = "delete";
       deleteBtn.textContent = "Delete";
 
-      deleteBtn.addEventListener("click", function () {
+      deleteBtn.addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
         if (confirm(`Are you sure you want to delete tour: ${tour.name}?`)) {
           toursService.delete(tour.id)
           .then(() => {

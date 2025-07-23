@@ -8,8 +8,8 @@ export class KeyPointService {
     this.apiUrl = "http://localhost:5105/api/key-points";
   }
 
-  getKeyPoints(page: string): Promise<KeyPointsData | null> {
-    if (Number.isNaN(page) || page === null || page === "null") {
+  getKeyPoints(tourId: string | null, page: string | null): Promise<KeyPointsData | null> {
+    if (isNaN(Number(page)) || page === null || page === "null") {
       console.log("Invalid number format.");
       return null;
     }
@@ -17,7 +17,10 @@ export class KeyPointService {
       console.log("Invalid page number.");
       return null;
     }
-    return fetch(this.apiUrl + "?page=" + page)
+    if (tourId == null || isNaN(Number(tourId))) {
+      tourId = "0";
+    }
+    return fetch(this.apiUrl + "?tourId=" + tourId + "&page=" + page)
       .then((response) => {
         if (!response.ok) {
           return response.text().then(errorMessage => {

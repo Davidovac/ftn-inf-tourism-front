@@ -26,11 +26,14 @@ function initializeForm(): void{
 
     pageButtonsDisplay()
     let pagesCount = Number(localStorage.getItem('totalCount')) / 4;
-    if (((pagesCount / Math.round(pagesCount))) > 1){
+    if (pagesCount <= 1) {
+      pagesCount = 1
+    }
+    else if (((pagesCount / Math.round(pagesCount))) > 1){
       pagesCount = Math.round(pagesCount) + 1
     }
     else {
-      pagesCount = 1
+      pagesCount = Math.round(pagesCount)
     }
 
     const buttonFirst = document.querySelector('#buttonFirstPage')
@@ -92,10 +95,16 @@ function initializeForm(): void{
       .then((tour) => {
         nameInput.value = tour.name;
         descInput.value = tour.description;
-        dateInput.value = tour.dateTime;
+        if (tour.name == "") {
+          dateInput.value = ""
+        }
+        else {
+          dateInput.value = tour.dateTime;
+        }
         maxGuestsInput.value = tour.maxGuests.toString();
         validityCheck()
         getAddedData()
+        renderCatalogData()
       })
       .catch(error => {
         alert('Tour not found!')
@@ -322,6 +331,7 @@ function validateMaxGuests(event: FocusEvent): void{
 function renderCatalogData() {
   const urlParams = new URLSearchParams(window.location.search);
   const page: string | null = urlParams.get("page");
+  const id: string | null = urlParams.get("id")
 
   const keyPointService = new KeyPointService();
 
@@ -330,7 +340,7 @@ function renderCatalogData() {
   body.style.backgroundColor = "rgb(202, 202, 202)"
 
   keyPointService
-    .getKeyPoints(page)
+    .getKeyPoints(id, page)
     .then((data) => {
       const catalogList = data.data;
       const totalCount = data.totalCount;
@@ -371,6 +381,7 @@ function renderCatalogData() {
           const addBtn = secondRowSection.firstChild;
           const newAddBtn = addBtn.cloneNode(true);
           addBtn.parentNode.replaceChild(newAddBtn, addBtn);
+          console.log('omasio')
           continue;
         }
         const cardBro = card.nextElementSibling;
