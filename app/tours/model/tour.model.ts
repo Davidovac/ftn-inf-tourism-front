@@ -6,7 +6,7 @@ export class Tour {
     public id?: number
     public name: string
     public description: string
-    public dateTime: string
+    public dateTime?: string
     public maxGuests: number
     public status?: string
     public guide?: User

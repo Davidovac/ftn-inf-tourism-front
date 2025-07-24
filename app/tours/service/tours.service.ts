@@ -52,13 +52,13 @@ export class ToursService {
       });
   }
 
-  getToursByGuide(guideIdStr: string): Promise<ToursData | null> {
+  getToursByGuide(guideIdStr: string): Promise<Tour[] | null> {
     const id = Number(guideIdStr);
     if (Number.isNaN(id)) {
       console.log("Invalid number format.");
       return null;
     }
-    return fetch(this.apiUrl + "?" + id)
+    return fetch(this.apiUrl + "?guideId=" + id)
       .then((response) => {
         if (!response.ok) {
           return response.text().then(errorMessage => {
@@ -67,9 +67,9 @@ export class ToursService {
           }
         return response.json();
       })
-      .then((responseData) => {
+      .then((data) => {
         const tours: Tour[] = [];
-        for (const element of responseData.data) {
+        for (const element of data) {
           const tour: Tour = new Tour(
             element.id,
             element.name,
@@ -84,10 +84,7 @@ export class ToursService {
           );
           tours.push(tour);
         }
-        const data = tours
-        const totalCount = responseData.totalCount
-        const toursData: ToursData = {data, totalCount}
-        return toursData;
+        return tours;
       })
       .catch((error) => {
         console.error("Error:", error.status);
@@ -170,7 +167,7 @@ export class ToursService {
             throw { status: response.status, message: errorMessage }
             })
           }
-        return response.json();
+        return id;
       })
       .catch((error) => {
         console.error("Error: " + error.status);

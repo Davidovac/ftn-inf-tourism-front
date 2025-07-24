@@ -27,11 +27,14 @@ function renderData(toursStatsData: ToursStatsData) {
     const mostFilledChart = document.querySelector('#most-filled') as HTMLCanvasElement;
     const leastFilledChart = document.querySelector('#least-filled') as HTMLCanvasElement;
     const naslov = document.querySelector('h2')
-    if (toursStatsData) {
+    if (toursStatsData.mostReserved.length != 0 || toursStatsData.leastReserved.length != 0 || toursStatsData.mostFilled.length != 0 || toursStatsData.leastFilled.length != 0) {
         naslov.textContent = "Vasa statistika tura"
     }
     else {
         naslov.textContent = "Statistiku nije moguce obraditi zbog manjka podataka"
+        naslov.style.marginTop = "30vh"
+        const mainDiv = document.querySelector('#main-container') as HTMLElement
+        mainDiv.innerHTML = ""
     }
 
     const label1: string[] = []

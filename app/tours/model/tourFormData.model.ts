@@ -5,7 +5,7 @@ export interface TourFormData {
     id?: number,
     name: string,
     description: string,
-    dateTime: string,
+    dateTime?: string,
     maxGuests: number,
     status?: string,
     guideId: number,
