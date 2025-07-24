@@ -2,6 +2,7 @@ import { Tour } from "../model/tour.model.js"
 import { TourFormData } from "../model/tourFormData.model.js";
 import { TourRatingData } from "../model/tourRatingData.model.js";
 import { ToursData } from "../model/toursData.model.js";
+import { ToursStatsData } from "../model/toursStatsData.model.js";
 
 export class ToursService {
   private apiUrl: string;
@@ -196,6 +197,29 @@ export class ToursService {
       })
       .catch((error) => {
         console.error("Error: " + error.status, error.message.message);
+        throw error;
+      });
+  }
+
+  getToursStatsByGuide(guideId: string): Promise<ToursStatsData | null> {
+    if (isNaN(Number(guideId))){
+      throw {message: new Error("Nevalidan id vodica."), status: 404}
+    }
+
+    return fetch(this.apiUrl + "/stats?guideId=" + guideId)
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then(errorMessage => {
+            throw { status: response.status, message: errorMessage }
+            })
+          }
+        return response.json();
+      })
+      .then((tours: ToursStatsData) => {
+        return tours;
+      })
+      .catch((error) => {
+        console.error("Error: " + error.status);
         throw error;
       });
   }
